@@ -1,19 +1,24 @@
 "use client";
 
 import { deleteTransaction } from "../lib/actions/transactions";
+import { Button } from "../../components/ui/button";
+import { toast } from "sonner";
 
 export default function DeleteButton({ id }: { id: string }) {
   return (
-    <button
+    <Button
       type="button"
-      className="rounded border px-2 py-1 text-sm text-red-600"
-      onClick={async () => {
-        if (confirm("Xoá giao dịch này?")) {
-          await deleteTransaction(id);
+      variant="destructive"
+      size="sm"
+      onClick={() => {
+        if (confirm("Xóa giao dịch này?")) {
+          void deleteTransaction(id).then(() =>
+            toast.success("Đã xóa giao dịch.")
+          );
         }
       }}
     >
-      Xoá
-    </button>
+      Xóa
+    </Button>
   );
 }

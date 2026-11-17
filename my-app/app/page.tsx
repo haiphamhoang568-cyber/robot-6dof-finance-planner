@@ -1,9 +1,11 @@
+import { connection } from "next/server";
 import { prisma } from "@/src/lib/prisma";
 import TransactionForm from "../src/components/transaction-form";
 import TransactionRow from "../src/components/transaction-row";
 import TransactionFilters from "../src/components/transaction-filters";
 import { Category } from "../src/generated/prisma/enums";
 import type { Prisma } from "../src/generated/prisma/client";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 
 export const instant = false;
 
@@ -29,6 +31,7 @@ export default async function Home({
 }: {
   searchParams: Promise<{ month?: string; category?: string; type?: string }>;
 }) {
+  await connection();
   const sp = await searchParams;
   const month = sp.month ?? "all";
   const type = sp.type ?? "all";
@@ -68,13 +71,36 @@ export default async function Home({
   const balance = income - expense;
 
   return (
-    <main>
-      <h1>Finance Planner</h1>
-      <p>Số dư: {balance.toLocaleString("vi-VN")} đ</p>
-      <p>Tổng thu: {income.toLocaleString("vi-VN")} đ</p>
-      <p>Tổng chi: {expense.toLocaleString("vi-VN")} đ</p>
+    <main className="mx-auto max-w-3xl space-y-6 px-4 py-8">
+      <h1 className="text-3xl font-bold">Finance Planner</h1>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle>Số dư</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">{balance.toLocaleString("vi-VN")} đ</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Tổng thu</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold text-green-600">{income.toLocaleString("vi-VN")} đ</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Tổng chi</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold text-red-600">{expense.toLocaleString("vi-VN")} đ</p>
+          </CardContent>
+        </Card>
+      </div>
       <TransactionForm />
-      <h2>Giao dịch</h2>
+      <h2 className="text-xl font-semibold">Giao dịch</h2>
       <TransactionFilters month={month} category={category} type={type} />
       <ul>
         {transactions.map((tx) => (
@@ -82,7 +108,7 @@ export default async function Home({
         ))}
       </ul>
 
-      <h2>Wishlist</h2>
+      <h2 className="text-xl font-semibold">Wishlist</h2>
       <ul>
         {wishlist.map((w) => (
           <li key={w.id}>

@@ -1,11 +1,28 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
   createTransaction,
   updateTransaction,
 } from "../lib/actions/transactions";
 import { TransactionType, Category } from "../generated/prisma/enums";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 
 const TYPE_LABELS: Record<TransactionType, string> = {
   INCOME: "Thu",
@@ -31,40 +48,88 @@ export default function TransactionForm({
   const [state, formAction, isPending] = useActionState(action, {
     ok: false,
   });
+  const [type, setType] = useState<TransactionType>(
+    transaction?.type ?? "INCOME"
+  );
+  const [category, setCategory] = useState<Category>(
+    transaction?.category ?? "FOOD"
+  );
   const today = new Date().toISOString().slice(0, 10);
   const defaultDate = transaction
     ? new Date(transaction.date).toISOString().slice(0, 10)
     : today;
 
+  useEffect(() => {
+    if (state.ok && state.message) {
+      toast.success(state.message);
+    }
+  }, [state]);
+
   return (
-    <form action={formAction} className="flex flex-col gap-3 rounded border p-4">
-      {transaction && <input type="hidden" name="id" value={transaction.id} />}
+    <Card>
+      <CardHeader>
+        <CardTitle>{isEditing ? "Sửa giao dịch" : "Thêm giao dịch"}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form action={formAction} className="flex flex-col gap-4">
+          {transaction && <input type="hidden" name="id" value={transaction.id} />}
 
-      <input name="amount" type="number" min={1} step={1} required placeholder="Số tiền (VND)" defaultValue={transaction?.amount} className="rounded border p-2" />
-      {state.errors?.amount?.[0] && <p className="text-sm text-red-600">{state.errors.amount[0]}</p>}
+          <div className="grid gap-2">
+            <Label htmlFor="amount">Số tiền (VND)</Label>
+            <Input id="amount" name="amount" type="number" min={1} step={1} required
+              placeholder="400000" defaultValue={transaction?.amount} />
+            {state.errors?.amount?.[0] && <p className="text-sm text-red-600">{state.errors.amount[0]}</p>}
+          </div>
 
-      <input name="description" type="text" maxLength={120} required placeholder="Mô tả (tối đa 120 ký tự)" defaultValue={transaction?.description} className="rounded border p-2" />
-      {state.errors?.description?.[0] && <p className="text-sm text-red-600">{state.errors.description[0]}</p>}
+          <div className="grid gap-2">
+            <Label htmlFor="description">Mô tả</Label>
+            <Input id="description" name="description" type="text" maxLength={120} required
+              placeholder="Ăn trưa" defaultValue={transaction?.description} />
+            {state.errors?.description?.[0] && <p className="text-sm text-red-600">{state.errors.description[0]}</p>}
+          </div>
 
-      <select name="type" required defaultValue={transaction?.type} className="rounded border p-2">
-        {Object.values(TransactionType).map((t) => (
-          <option key={t} value={t}>{TYPE_LABELS[t]}</option>
-        ))}
-      </select>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <Label>Loại</Label>
+              <input type="hidden" name="type" value={type} />
+              <Select value={type} onValueChange={(v) => setType(v as TransactionType)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.values(TransactionType).map((t) => (
+                    <SelectItem key={t} value={t}>{TYPE_LABELS[t]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-      <select name="category" required defaultValue={transaction?.category} className="rounded border p-2">
-        {Object.values(Category).map((c) => (
-          <option key={c} value={c}>{c.replaceAll("_", " ")}</option>
-        ))}
-      </select>
+            <div className="grid gap-2">
+              <Label>Danh mục</Label>
+              <input type="hidden" name="category" value={category} />
+              <Select value={category} onValueChange={(v) => setCategory(v as Category)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.values(Category).map((c) => (
+                    <SelectItem key={c} value={c}>{c.replaceAll("_", " ")}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
-      <input name="date" type="date" required defaultValue={defaultDate} className="rounded border p-2" />
+          <div className="grid gap-2">
+            <Label htmlFor="date">Ngày</Label>
+            <Input id="date" name="date" type="date" required defaultValue={defaultDate} />
+          </div>
 
-      <button type="submit" disabled={isPending} className="rounded bg-black p-2 text-white disabled:opacity-50">
-        {isPending ? "Đang lưu..." : isEditing ? "Lưu thay đổi" : "Thêm giao dịch"}
-      </button>
-
-      {state.ok && state.message && <p className="text-sm text-green-600">{state.message}</p>}
-    </form>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Đang lưu..." : isEditing ? "Lưu thay đổi" : "Thêm giao dịch"}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

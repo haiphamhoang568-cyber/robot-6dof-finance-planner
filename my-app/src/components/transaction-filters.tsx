@@ -2,6 +2,13 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { Category } from "../generated/prisma/enums";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
 
 export default function TransactionFilters({
   month,
@@ -27,24 +34,39 @@ export default function TransactionFilters({
 
   return (
     <div className="flex flex-wrap gap-2">
-      <select value={month} onChange={(e) => update("month", e.target.value)} className="rounded border p-2">
-        <option value="all">Tất cả tháng</option>
-        <option value="this">Tháng này</option>
-        <option value="last">Tháng trước</option>
-      </select>
+      <Select value={month} onValueChange={(v) => update("month", v ?? "all")}>
+        <SelectTrigger className="w-40">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Tất cả tháng</SelectItem>
+          <SelectItem value="this">Tháng này</SelectItem>
+          <SelectItem value="last">Tháng trước</SelectItem>
+        </SelectContent>
+      </Select>
 
-      <select value={type} onChange={(e) => update("type", e.target.value)} className="rounded border p-2">
-        <option value="all">Thu + Chi</option>
-        <option value="INCOME">Thu</option>
-        <option value="EXPENSE">Chi</option>
-      </select>
+      <Select value={month} onValueChange={(v) => update("month", v ?? "all")}>
+        <SelectTrigger className="w-32">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Thu + Chi</SelectItem>
+          <SelectItem value="INCOME">Thu</SelectItem>
+          <SelectItem value="EXPENSE">Chi</SelectItem>
+        </SelectContent>
+      </Select>
 
-      <select value={category} onChange={(e) => update("category", e.target.value)} className="rounded border p-2">
-        <option value="all">Tất cả danh mục</option>
-        {Object.values(Category).map((c) => (
-          <option key={c} value={c}>{c.replaceAll("_", " ")}</option>
-        ))}
-      </select>
+      <Select value={category} onValueChange={(v) => update("category", v ?? "all")}>
+        <SelectTrigger className="w-48">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Tất cả danh mục</SelectItem>
+          {Object.values(Category).map((c) => (
+            <SelectItem key={c} value={c}>{c.replaceAll("_", " ")}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
