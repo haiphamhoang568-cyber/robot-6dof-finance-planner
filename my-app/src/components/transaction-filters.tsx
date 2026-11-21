@@ -35,7 +35,7 @@ export default function TransactionFilters({
   return (
     <div className="flex flex-wrap gap-2">
       <Select value={month} onValueChange={(v) => update("month", v ?? "all")}>
-        <SelectTrigger className="w-40">
+        <SelectTrigger className="w-40 rounded-full border-slate-700 bg-slate-900/80 text-slate-200 shadow-sm">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -45,8 +45,8 @@ export default function TransactionFilters({
         </SelectContent>
       </Select>
 
-      <Select value={month} onValueChange={(v) => update("month", v ?? "all")}>
-        <SelectTrigger className="w-32">
+      <Select value={type} onValueChange={(v) => update("type", v ?? "all")}>
+        <SelectTrigger className="w-32 rounded-full border-slate-700 bg-slate-900/80 text-slate-200 shadow-sm">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -57,7 +57,7 @@ export default function TransactionFilters({
       </Select>
 
       <Select value={category} onValueChange={(v) => update("category", v ?? "all")}>
-        <SelectTrigger className="w-48">
+        <SelectTrigger className="w-48 rounded-full border-slate-700 bg-slate-900/80 text-slate-200 shadow-sm">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

@@ -2,9 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "../prisma";
+import { requireUser } from "../dal";
 import { transactionSchema } from "../validations/transaction";
-
-const DEMO_USER_ID = "demo-user-1";
 
 export type TransactionActionState = {
   ok: boolean;
@@ -16,6 +15,8 @@ export async function createTransaction(
   _prevState: TransactionActionState,
   formData: FormData
 ): Promise<TransactionActionState> {
+  const user = await requireUser();
+
   const parsed = transactionSchema.safeParse({
     amount: Number(formData.get("amount")),
     description: formData.get("description"),
@@ -29,12 +30,13 @@ export async function createTransaction(
   }
 
   await prisma.transaction.create({
-    data: { ...parsed.data, userId: DEMO_USER_ID },
+    data: { ...parsed.data, userId: user.id },
   });
 
   revalidatePath("/");
   return { ok: true, message: "Đã thêm giao dịch." };
 }
+
 export async function updateTransaction(
   _prevState: TransactionActionState,
   formData: FormData
@@ -43,6 +45,8 @@ export async function updateTransaction(
   if (typeof id !== "string" || !id) {
     return { ok: false, message: "Thiếu id giao dịch." };
   }
+
+  const user = await requireUser();
 
   const parsed = transactionSchema.safeParse({
     amount: Number(formData.get("amount")),
@@ -57,7 +61,7 @@ export async function updateTransaction(
   }
 
   await prisma.transaction.updateMany({
-    where: { id, userId: DEMO_USER_ID },
+    where: { id, userId: user.id },
     data: parsed.data,
   });
 
@@ -66,8 +70,10 @@ export async function updateTransaction(
 }
 
 export async function deleteTransaction(id: string) {
+  const user = await requireUser();
+
   await prisma.transaction.deleteMany({
-    where: { id, userId: DEMO_USER_ID },
+    where: { id, userId: user.id },
   });
   revalidatePath("/");
 }

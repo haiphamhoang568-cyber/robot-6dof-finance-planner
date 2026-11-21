@@ -66,34 +66,36 @@ export default function TransactionForm({
   }, [state]);
 
   return (
-    <Card>
+    <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_30px_rgba(34,211,238,0.08)]">
       <CardHeader>
-        <CardTitle>{isEditing ? "Sửa giao dịch" : "Thêm giao dịch"}</CardTitle>
+        <CardTitle className="text-slate-100">{isEditing ? "✏️ Sửa giao dịch" : "✨ Thêm giao dịch"}</CardTitle>
       </CardHeader>
       <CardContent>
         <form action={formAction} className="flex flex-col gap-4">
           {transaction && <input type="hidden" name="id" value={transaction.id} />}
 
           <div className="grid gap-2">
-            <Label htmlFor="amount">Số tiền (VND)</Label>
+            <Label htmlFor="amount" className="text-slate-200">Số tiền (VND)</Label>
             <Input id="amount" name="amount" type="number" min={1} step={1} required
-              placeholder="400000" defaultValue={transaction?.amount} />
-            {state.errors?.amount?.[0] && <p className="text-sm text-red-600">{state.errors.amount[0]}</p>}
+              placeholder="400000" defaultValue={transaction?.amount}
+              className="rounded-xl border-slate-700 bg-slate-950/70 text-white placeholder:text-slate-500 focus-visible:ring-cyan-400" />
+            {state.errors?.amount?.[0] && <p className="text-sm text-rose-400">{state.errors.amount[0]}</p>}
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="description">Mô tả</Label>
+            <Label htmlFor="description" className="text-slate-200">Mô tả</Label>
             <Input id="description" name="description" type="text" maxLength={120} required
-              placeholder="Ăn trưa" defaultValue={transaction?.description} />
-            {state.errors?.description?.[0] && <p className="text-sm text-red-600">{state.errors.description[0]}</p>}
+              placeholder="Ăn trưa" defaultValue={transaction?.description}
+              className="rounded-xl border-slate-700 bg-slate-950/70 text-white placeholder:text-slate-500 focus-visible:ring-cyan-400" />
+            {state.errors?.description?.[0] && <p className="text-sm text-rose-400">{state.errors.description[0]}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label>Loại</Label>
+              <Label className="text-slate-200">Loại</Label>
               <input type="hidden" name="type" value={type} />
               <Select value={type} onValueChange={(v) => setType(v as TransactionType)}>
-                <SelectTrigger>
+                <SelectTrigger className="rounded-xl border-slate-700 bg-slate-950/70 text-white">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -105,10 +107,10 @@ export default function TransactionForm({
             </div>
 
             <div className="grid gap-2">
-              <Label>Danh mục</Label>
+              <Label className="text-slate-200">Danh mục</Label>
               <input type="hidden" name="category" value={category} />
               <Select value={category} onValueChange={(v) => setCategory(v as Category)}>
-                <SelectTrigger>
+                <SelectTrigger className="rounded-xl border-slate-700 bg-slate-950/70 text-white">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -121,11 +123,13 @@ export default function TransactionForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="date">Ngày</Label>
-            <Input id="date" name="date" type="date" required defaultValue={defaultDate} />
+            <Label htmlFor="date" className="text-slate-200">Ngày</Label>
+            <Input id="date" name="date" type="date" required defaultValue={defaultDate}
+              className="rounded-xl border-slate-700 bg-slate-950/70 text-white placeholder:text-slate-500 focus-visible:ring-cyan-400" />
           </div>
 
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" disabled={isPending}
+            className="w-full rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 font-semibold text-slate-950 shadow-md shadow-fuchsia-500/30 hover:from-cyan-300 hover:to-fuchsia-400">
             {isPending ? "Đang lưu..." : isEditing ? "Lưu thay đổi" : "Thêm giao dịch"}
           </Button>
         </form>
