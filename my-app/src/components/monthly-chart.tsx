@@ -35,7 +35,7 @@ export default function MonthlyChart({ data }: { data: MonthlyTotal[] }) {
                 tickFormatter={(v: number) => `${(v / 1000000).toLocaleString("vi-VN")}tr`}
               />
               <Tooltip
-                formatter={(v: number | undefined) => (typeof v === "number" ? vnd(v) : v)}
+                formatter={(v) => (typeof v === "number" ? vnd(v) : v)}
                 contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #164e63", borderRadius: 12 }}
                 labelStyle={{ color: "#e2e8f0" }}
               />

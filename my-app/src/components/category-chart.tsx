@@ -44,7 +44,7 @@ export default function CategoryChart({ data }: { data: CategoryTotal[] }) {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(v: number | undefined) =>
+                  formatter={(v) =>
                     typeof v === "number" ? `${v.toLocaleString("vi-VN")} đ` : v
                   }
                   contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #164e63", borderRadius: 12 }}
