@@ -45,14 +45,41 @@ model Transaction {
 }
 
 model WishlistItem {
+  id         String    @id @default(cuid())
+  userId     String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  cost       Int
+  priority   Priority  @default(MEDIUM)
+  targetDate DateTime?
+  createdAt  DateTime  @default(now())
+
+}
+
+model Budget {
   id        String   @id @default(cuid())
   userId    String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String
-  cost      Int
-  priority  Priority @default(MEDIUM)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category  Category
+  limit     Int
   createdAt DateTime @default(now())
 
+  @@unique([userId, category])
+  @@index([userId])
+}
+
+model RecurringTransaction {
+  id          String          @id @default(cuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Int
+  description String
+  type        TransactionType
+  category    Category
+  dayOfMonth  Int
+  createdAt   DateTime        @default(now())
+
+  @@index([userId])
 }
 
 model User {
@@ -65,8 +92,10 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
-  transactions  Transaction[]
-  wishlistItems WishlistItem[]
+  transactions          Transaction[]
+  wishlistItems         WishlistItem[]
+  budgets               Budget[]
+  recurringTransactions RecurringTransaction[]
   @@unique([email])
   @@map("user")
 }

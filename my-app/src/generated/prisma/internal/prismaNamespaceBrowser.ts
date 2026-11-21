@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Transaction: 'Transaction',
   WishlistItem: 'WishlistItem',
+  Budget: 'Budget',
+  RecurringTransaction: 'RecurringTransaction',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
@@ -95,10 +97,36 @@ export const WishlistItemScalarFieldEnum = {
   name: 'name',
   cost: 'cost',
   priority: 'priority',
+  targetDate: 'targetDate',
   createdAt: 'createdAt'
 } as const
 
 export type WishlistItemScalarFieldEnum = (typeof WishlistItemScalarFieldEnum)[keyof typeof WishlistItemScalarFieldEnum]
+
+
+export const BudgetScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  category: 'category',
+  limit: 'limit',
+  createdAt: 'createdAt'
+} as const
+
+export type BudgetScalarFieldEnum = (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum]
+
+
+export const RecurringTransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  description: 'description',
+  type: 'type',
+  category: 'category',
+  dayOfMonth: 'dayOfMonth',
+  createdAt: 'createdAt'
+} as const
+
+export type RecurringTransactionScalarFieldEnum = (typeof RecurringTransactionScalarFieldEnum)[keyof typeof RecurringTransactionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

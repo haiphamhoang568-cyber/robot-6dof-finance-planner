@@ -4,6 +4,25 @@ import { requireUser } from "@/src/lib/dal";
 import TransactionForm from "../src/components/transaction-form";
 import TransactionRow from "../src/components/transaction-row";
 import TransactionFilters from "../src/components/transaction-filters";
+import WishlistForm from "../src/components/wishlist-form";
+import WishlistRow from "../src/components/wishlist-row";
+import MonthlyChart from "../src/components/monthly-chart";
+import CategoryChart from "../src/components/category-chart";
+import InsightsPanel from "../src/components/insights-panel";
+import BudgetForm from "../src/components/budget-form";
+import BudgetRow from "../src/components/budget-row";
+import RecurringForm from "../src/components/recurring-form";
+import RecurringRow from "../src/components/recurring-row";
+import GenerateRecurringButton from "../src/components/generate-recurring-button";
+import { monthlyTotals, expenseByCategory } from "../src/lib/charts";
+import {
+  financialHealthScore,
+  forecastEndOfMonth,
+  monthComparison,
+  topExpenses,
+  loggingStreak,
+  savingsSuggestion,
+} from "../src/lib/insights";
 import LogoutButton from "../src/components/logout-button";
 import NeonOrbs from "../src/components/neon-orbs";
 import { Category } from "../src/generated/prisma/enums";
@@ -61,6 +80,40 @@ export default async function Home({
   const wishlist = await prisma.wishlistItem.findMany({
     where: { userId: user.id },
   });
+  const allTransactions = await prisma.transaction.findMany({
+    where: { userId: user.id },
+    orderBy: { date: "desc" },
+  });
+  const budgets = await prisma.budget.findMany({
+    where: { userId: user.id },
+    orderBy: { category: "asc" },
+  });
+  const recurring = await prisma.recurringTransaction.findMany({
+    where: { userId: user.id },
+    orderBy: { dayOfMonth: "asc" },
+  });
+  const monthly = monthlyTotals(allTransactions);
+  const byCategory = expenseByCategory(allTransactions);
+
+  const now = new Date();
+  const thisMonthTx = allTransactions.filter(
+    (t) => t.date.getFullYear() === now.getFullYear() && t.date.getMonth() === now.getMonth()
+  );
+  const streak = loggingStreak(allTransactions, now);
+  const health = financialHealthScore(allTransactions, streak, now);
+  const totalBalance = allTransactions.reduce(
+    (s, t) => s + (t.type === "INCOME" ? t.amount : -t.amount),
+    0
+  );
+  const forecast = forecastEndOfMonth(allTransactions, totalBalance, now);
+  const comparison = monthComparison(allTransactions, now);
+  const top = topExpenses(thisMonthTx, 5);
+  const suggestion = savingsSuggestion(allTransactions, now);
+  const spentByCategory = new Map<string, number>();
+  for (const t of thisMonthTx) {
+    if (t.type !== "EXPENSE") continue;
+    spentByCategory.set(t.category, (spentByCategory.get(t.category) ?? 0) + t.amount);
+  }
 
   const income = transactions
     .filter((t) => t.type === "INCOME")
@@ -84,7 +137,7 @@ export default async function Home({
                 <span className="h-3 w-3 rotate-45 bg-cyan-400 shadow-[0_0_12px_2px_rgba(34,211,238,0.8)]" />
                 <h1 className="font-cyber neon-text-cyan text-2xl text-white sm:text-3xl">Minh Ân</h1>
               </div>
-              <p className="mt-2 text-sm text-slate-400">Quản lý tiền bạc — phong cách neon cyber</p>
+              <p className="mt-2 text-sm text-slate-400">thằng không có tiền dạy người có tiền quản lý tiền bạc</p>
               <div className="mt-3 h-px w-48 bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-transparent" />
             </div>
             <LogoutButton />
@@ -118,6 +171,20 @@ export default async function Home({
           </Card>
         </div>
 
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <MonthlyChart data={monthly} />
+          <CategoryChart data={byCategory} />
+        </div>
+
+        <InsightsPanel
+          health={health}
+          forecast={forecast}
+          comparison={comparison}
+          top={top}
+          streak={streak}
+          suggestion={suggestion}
+        />
+
         <TransactionForm />
 
         <h2 className="text-xl font-semibold text-slate-100">🧾 Giao dịch</h2>
@@ -129,22 +196,34 @@ export default async function Home({
         </ul>
 
         <h2 className="text-xl font-semibold text-slate-100">🎁 Wishlist</h2>
+        <WishlistForm />
         <ul className="space-y-3">
-          {wishlist.map((w) => {
-            const pct = Math.min(100, Math.max(0, Math.round((balance / w.cost) * 100)));
-            return (
-              <li key={w.id} className="rounded-2xl border border-slate-800 bg-slate-900/80 p-4 shadow-sm">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-medium text-slate-100">{w.name}</span>
-                  <span className="text-sm font-semibold text-cyan-300">{w.cost.toLocaleString("vi-VN")} đ</span>
-                </div>
-                <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-800">
-                  <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500" style={{ width: `${pct}%` }} />
-                </div>
-                <p className="mt-1 text-right text-xs text-slate-400">Đã đủ {pct}%</p>
-              </li>
-            );
-          })}
+          {wishlist.map((w) => (
+            <WishlistRow key={w.id} item={w} balance={balance} />
+          ))}
+        </ul>
+
+        <h2 className="text-xl font-semibold text-slate-100">💰 Ngân sách tháng</h2>
+        <BudgetForm />
+        <ul className="space-y-3">
+          {budgets.map((b) => (
+            <BudgetRow
+              key={b.id}
+              budget={b}
+              spent={spentByCategory.get(b.category) ?? 0}
+            />
+          ))}
+        </ul>
+
+        <h2 className="text-xl font-semibold text-slate-100">🔁 Hóa đơn định kỳ</h2>
+        <div className="flex flex-wrap items-center gap-3">
+          <GenerateRecurringButton />
+        </div>
+        <RecurringForm />
+        <ul className="space-y-3">
+          {recurring.map((r) => (
+            <RecurringRow key={r.id} item={r} />
+          ))}
         </ul>
       </div>
     </main>

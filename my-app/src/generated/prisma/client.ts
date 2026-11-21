@@ -52,6 +52,16 @@ export type Transaction = Prisma.TransactionModel
  */
 export type WishlistItem = Prisma.WishlistItemModel
 /**
+ * Model Budget
+ * 
+ */
+export type Budget = Prisma.BudgetModel
+/**
+ * Model RecurringTransaction
+ * 
+ */
+export type RecurringTransaction = Prisma.RecurringTransactionModel
+/**
  * Model User
  * 
  */

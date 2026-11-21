@@ -40,6 +40,7 @@ export type WishlistItemMinAggregateOutputType = {
   name: string | null
   cost: number | null
   priority: $Enums.Priority | null
+  targetDate: Date | null
   createdAt: Date | null
 }
 
@@ -49,6 +50,7 @@ export type WishlistItemMaxAggregateOutputType = {
   name: string | null
   cost: number | null
   priority: $Enums.Priority | null
+  targetDate: Date | null
   createdAt: Date | null
 }
 
@@ -58,6 +60,7 @@ export type WishlistItemCountAggregateOutputType = {
   name: number
   cost: number
   priority: number
+  targetDate: number
   createdAt: number
   _all: number
 }
@@ -77,6 +80,7 @@ export type WishlistItemMinAggregateInputType = {
   name?: true
   cost?: true
   priority?: true
+  targetDate?: true
   createdAt?: true
 }
 
@@ -86,6 +90,7 @@ export type WishlistItemMaxAggregateInputType = {
   name?: true
   cost?: true
   priority?: true
+  targetDate?: true
   createdAt?: true
 }
 
@@ -95,6 +100,7 @@ export type WishlistItemCountAggregateInputType = {
   name?: true
   cost?: true
   priority?: true
+  targetDate?: true
   createdAt?: true
   _all?: true
 }
@@ -191,6 +197,7 @@ export type WishlistItemGroupByOutputType = {
   name: string
   cost: number
   priority: $Enums.Priority
+  targetDate: Date | null
   createdAt: Date
   _count: WishlistItemCountAggregateOutputType | null
   _avg: WishlistItemAvgAggregateOutputType | null
@@ -223,6 +230,7 @@ export type WishlistItemWhereInput = {
   name?: Prisma.StringFilter<"WishlistItem"> | string
   cost?: Prisma.IntFilter<"WishlistItem"> | number
   priority?: Prisma.EnumPriorityFilter<"WishlistItem"> | $Enums.Priority
+  targetDate?: Prisma.DateTimeNullableFilter<"WishlistItem"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"WishlistItem"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -233,6 +241,7 @@ export type WishlistItemOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -246,6 +255,7 @@ export type WishlistItemWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"WishlistItem"> | string
   cost?: Prisma.IntFilter<"WishlistItem"> | number
   priority?: Prisma.EnumPriorityFilter<"WishlistItem"> | $Enums.Priority
+  targetDate?: Prisma.DateTimeNullableFilter<"WishlistItem"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"WishlistItem"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -256,6 +266,7 @@ export type WishlistItemOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.WishlistItemCountOrderByAggregateInput
   _avg?: Prisma.WishlistItemAvgOrderByAggregateInput
@@ -273,6 +284,7 @@ export type WishlistItemScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"WishlistItem"> | string
   cost?: Prisma.IntWithAggregatesFilter<"WishlistItem"> | number
   priority?: Prisma.EnumPriorityWithAggregatesFilter<"WishlistItem"> | $Enums.Priority
+  targetDate?: Prisma.DateTimeNullableWithAggregatesFilter<"WishlistItem"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WishlistItem"> | Date | string
 }
 
@@ -281,6 +293,7 @@ export type WishlistItemCreateInput = {
   name: string
   cost: number
   priority?: $Enums.Priority
+  targetDate?: Date | string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutWishlistItemsInput
 }
@@ -291,6 +304,7 @@ export type WishlistItemUncheckedCreateInput = {
   name: string
   cost: number
   priority?: $Enums.Priority
+  targetDate?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -299,6 +313,7 @@ export type WishlistItemUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutWishlistItemsNestedInput
 }
@@ -309,6 +324,7 @@ export type WishlistItemUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -318,6 +334,7 @@ export type WishlistItemCreateManyInput = {
   name: string
   cost: number
   priority?: $Enums.Priority
+  targetDate?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -326,6 +343,7 @@ export type WishlistItemUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -335,6 +353,7 @@ export type WishlistItemUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -344,6 +363,7 @@ export type WishlistItemCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -357,6 +377,7 @@ export type WishlistItemMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -366,6 +387,7 @@ export type WishlistItemMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -385,6 +407,10 @@ export type WishlistItemOrderByRelationAggregateInput = {
 
 export type EnumPriorityFieldUpdateOperationsInput = {
   set?: $Enums.Priority
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type WishlistItemCreateNestedManyWithoutUserInput = {
@@ -434,6 +460,7 @@ export type WishlistItemCreateWithoutUserInput = {
   name: string
   cost: number
   priority?: $Enums.Priority
+  targetDate?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -442,6 +469,7 @@ export type WishlistItemUncheckedCreateWithoutUserInput = {
   name: string
   cost: number
   priority?: $Enums.Priority
+  targetDate?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -480,6 +508,7 @@ export type WishlistItemScalarWhereInput = {
   name?: Prisma.StringFilter<"WishlistItem"> | string
   cost?: Prisma.IntFilter<"WishlistItem"> | number
   priority?: Prisma.EnumPriorityFilter<"WishlistItem"> | $Enums.Priority
+  targetDate?: Prisma.DateTimeNullableFilter<"WishlistItem"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"WishlistItem"> | Date | string
 }
 
@@ -488,6 +517,7 @@ export type WishlistItemCreateManyUserInput = {
   name: string
   cost: number
   priority?: $Enums.Priority
+  targetDate?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -496,6 +526,7 @@ export type WishlistItemUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -504,6 +535,7 @@ export type WishlistItemUncheckedUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -512,6 +544,7 @@ export type WishlistItemUncheckedUpdateManyWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -523,6 +556,7 @@ export type WishlistItemSelect<ExtArgs extends runtime.Types.Extensions.Internal
   name?: boolean
   cost?: boolean
   priority?: boolean
+  targetDate?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["wishlistItem"]>
@@ -533,6 +567,7 @@ export type WishlistItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   name?: boolean
   cost?: boolean
   priority?: boolean
+  targetDate?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["wishlistItem"]>
@@ -543,6 +578,7 @@ export type WishlistItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   name?: boolean
   cost?: boolean
   priority?: boolean
+  targetDate?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["wishlistItem"]>
@@ -553,10 +589,11 @@ export type WishlistItemSelectScalar = {
   name?: boolean
   cost?: boolean
   priority?: boolean
+  targetDate?: boolean
   createdAt?: boolean
 }
 
-export type WishlistItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "cost" | "priority" | "createdAt", ExtArgs["result"]["wishlistItem"]>
+export type WishlistItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "cost" | "priority" | "targetDate" | "createdAt", ExtArgs["result"]["wishlistItem"]>
 export type WishlistItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -578,6 +615,7 @@ export type $WishlistItemPayload<ExtArgs extends runtime.Types.Extensions.Intern
     name: string
     cost: number
     priority: $Enums.Priority
+    targetDate: Date | null
     createdAt: Date
   }, ExtArgs["result"]["wishlistItem"]>
   composites: {}
@@ -1008,6 +1046,7 @@ export interface WishlistItemFieldRefs {
   readonly name: Prisma.FieldRef<"WishlistItem", 'String'>
   readonly cost: Prisma.FieldRef<"WishlistItem", 'Int'>
   readonly priority: Prisma.FieldRef<"WishlistItem", 'Priority'>
+  readonly targetDate: Prisma.FieldRef<"WishlistItem", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"WishlistItem", 'DateTime'>
 }
     
