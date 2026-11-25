@@ -11,9 +11,9 @@ export default function WishlistDeleteButton({ id }: { id: string }) {
       variant="destructive"
       size="sm"
       onClick={() => {
-        if (confirm("Xóa món này khỏi wishlist?")) {
+        if (confirm("Xóa linh kiện này khỏi danh sách mua?")) {
           void deleteWishlistItem(id).then(() =>
-            toast.success("Đã xóa khỏi wishlist.")
+            toast.success("Đã xóa linh kiện khỏi danh sách mua.")
           );
         }
       }}

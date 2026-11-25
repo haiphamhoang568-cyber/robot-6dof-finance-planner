@@ -7,9 +7,9 @@ export default function SavingsProgress({
 }) {
   return (
     <div>
-      <div className="h-2.5 overflow-hidden rounded-full bg-slate-800">
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-800">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500"
+          className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-teal-300"
           style={{ width: `${milestone.percent}%` }}
         />
       </div>

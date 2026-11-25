@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Gauge } from "lucide-react";
+import { robotCategoryLabel } from "../lib/robot-labels";
 import {
   whatIfSavings,
   type HealthScore,
@@ -23,18 +25,18 @@ function changeBadge(change: number | null, goodWhenDown: boolean) {
   const good = goodWhenDown ? change <= 0 : change >= 0;
   const sign = change > 0 ? "+" : "";
   return (
-    <span className={`text-sm font-semibold ${good ? "text-cyan-300" : "text-fuchsia-400"}`}>
+    <span className={`text-sm font-semibold ${good ? "text-cyan-300" : "text-amber-200"}`}>
       {sign}{change}%
     </span>
   );
 }
 
 function streakBadge(streak: number): string {
-  if (streak >= 30) return "🔥 Huyền thoại";
-  if (streak >= 14) return "🔥 Cháy quá";
-  if (streak >= 7) return "🔥 Đang cháy";
-  if (streak >= 3) return "✨ Khởi động tốt";
-  return "Bắt đầu thôi";
+  if (streak >= 30) return "Đã ghi 30 ngày trở lên";
+  if (streak >= 14) return "Đã ghi ít nhất 14 ngày";
+  if (streak >= 7) return "Đã ghi ít nhất 7 ngày";
+  if (streak >= 3) return "Đã ghi ít nhất 3 ngày";
+  return "Mới bắt đầu";
 }
 
 export default function InsightsPanel({
@@ -56,12 +58,12 @@ export default function InsightsPanel({
   const whatIf = whatIfSavings(cut);
 
   return (
-    <section className="space-y-4">
-      <h2 className="text-xl font-semibold text-slate-100">💡 Thông minh</h2>
+    <section className="robot-section" aria-labelledby="robot-insights-title">
+      <h2 id="robot-insights-title"><Gauge size={21} aria-hidden="true" /> Phân tích chi phí dự án</h2>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(34,211,238,0.08)]">
+        <Card className="robot-surface">
           <CardHeader className="pb-2">
-            <CardTitle className="text-slate-100">❤️ Điểm sức khỏe tài chính</CardTitle>
+            <CardTitle className="text-slate-100">Điểm quản lý quỹ</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-end gap-3">
@@ -70,19 +72,19 @@ export default function InsightsPanel({
             </div>
             <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-800">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500"
+                className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-teal-300"
                 style={{ width: `${health.score}%` }}
               />
             </div>
             <p className="mt-2 text-sm text-slate-400">
-              Tỉ lệ tiết kiệm tháng này: {health.savingsRate}% · Streak ghi chép: {health.streak} ngày
+              Tỉ lệ tiết kiệm tháng này: {health.savingsRate}% · Ghi sổ liên tiếp: {health.streak} ngày
             </p>
           </CardContent>
         </Card>
 
-        <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(34,211,238,0.08)]">
+        <Card className="robot-surface">
           <CardHeader className="pb-2">
-            <CardTitle className="text-slate-100">🔮 Dự báo cuối tháng</CardTitle>
+            <CardTitle className="text-slate-100">Dự báo quỹ cuối tháng</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold text-white">{vnd(forecast.projectedBalance)}</p>
@@ -90,22 +92,22 @@ export default function InsightsPanel({
               Chi trung bình {vnd(forecast.dailyExpenseRate)}/ngày · còn {forecast.daysRemaining} ngày
             </p>
             {forecast.willBeNegative ? (
-              <p className="mt-2 text-sm font-semibold text-fuchsia-400">
-                ⚠️ Cứ chi thế này thì cuối tháng sẽ âm tiền!
+              <p className="mt-2 text-sm font-semibold text-amber-200">
+                Dự báo quỹ sẽ âm nếu giữ mức chi hiện tại.
               </p>
             ) : (
-              <p className="mt-2 text-sm text-cyan-300">✅ Tốc độ chi hiện tại vẫn an toàn.</p>
+              <p className="mt-2 text-sm text-cyan-300">Quỹ dự kiến còn đủ đến cuối tháng.</p>
             )}
           </CardContent>
         </Card>
 
-        <Card className="rounded-3xl border-fuchsia-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(232,121,249,0.08)]">
+        <Card className="robot-surface">
           <CardHeader className="pb-2">
-            <CardTitle className="text-slate-100">🧪 Nếu cắt chi thì sao?</CardTitle>
+            <CardTitle className="text-slate-100">Ước tính tiết kiệm</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-2">
-              <Label htmlFor="cut" className="text-slate-200">Cắt mỗi tháng (VND)</Label>
+              <Label htmlFor="cut" className="text-slate-200">Giảm chi mỗi tháng (VND)</Label>
               <Input
                 id="cut"
                 type="number"
@@ -133,17 +135,17 @@ export default function InsightsPanel({
           </CardContent>
         </Card>
 
-        <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(34,211,238,0.08)]">
+        <Card className="robot-surface">
           <CardHeader className="pb-2">
-            <CardTitle className="text-slate-100">📈 So với tháng trước</CardTitle>
+            <CardTitle className="text-slate-100">So với tháng trước</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-slate-200">Thu nhập ({vnd(comparison.income.current)})</span>
+              <span className="text-slate-200">Tiền vào quỹ ({vnd(comparison.income.current)})</span>
               {changeBadge(comparison.income.change, false)}
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-200">Chi tiêu ({vnd(comparison.expense.current)})</span>
+              <span className="text-slate-200">Chi phí dự án ({vnd(comparison.expense.current)})</span>
               {changeBadge(comparison.expense.change, true)}
             </div>
             <p className="pt-1 text-sm text-slate-400">
@@ -152,9 +154,9 @@ export default function InsightsPanel({
           </CardContent>
         </Card>
 
-        <Card className="rounded-3xl border-fuchsia-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(232,121,249,0.08)]">
+        <Card className="robot-surface">
           <CardHeader className="pb-2">
-            <CardTitle className="text-slate-100">🏆 Top 5 khoản chi lớn nhất tháng</CardTitle>
+            <CardTitle className="text-slate-100">5 khoản chi lớn nhất tháng</CardTitle>
           </CardHeader>
           <CardContent>
             {top.length === 0 ? (
@@ -164,9 +166,9 @@ export default function InsightsPanel({
                 {top.map((t, i) => (
                   <li key={i} className="flex items-center justify-between gap-3 text-sm">
                     <span className="flex-1 truncate text-slate-100">
-                      {i + 1}. {t.description ?? t.category.replaceAll("_", " ")}
+                      {i + 1}. {t.description ?? robotCategoryLabel(t.category)}
                     </span>
-                    <span className="shrink-0 font-semibold text-fuchsia-400">{vnd(t.amount)}</span>
+                    <span className="shrink-0 font-semibold text-amber-200">{vnd(t.amount)}</span>
                   </li>
                 ))}
               </ul>
@@ -174,9 +176,9 @@ export default function InsightsPanel({
           </CardContent>
         </Card>
 
-        <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(34,211,238,0.08)]">
+        <Card className="robot-surface">
           <CardHeader className="pb-2">
-            <CardTitle className="text-slate-100">🔥 Streak ghi chép</CardTitle>
+            <CardTitle className="text-slate-100">Tiến độ ghi sổ</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-3">
@@ -190,8 +192,8 @@ export default function InsightsPanel({
             </div>
             {suggestion ? (
               <p className="mt-3 text-sm text-slate-300">
-                💡 Tháng này chi nhiều nhất cho <b>{suggestion.category.replaceAll("_", " ")}</b> ({vnd(suggestion.amount)}). 
-                Thử cắt 10% (~{vnd(suggestion.suggestedCut)}) là đã tiết kiệm được kha khá.
+                Tháng này chi nhiều nhất cho <b>{robotCategoryLabel(suggestion.category)}</b> ({vnd(suggestion.amount)}).
+                Nếu giảm 10%, quỹ sẽ tiết kiệm được khoảng {vnd(suggestion.suggestedCut)}.
               </p>
             ) : (
               <p className="mt-3 text-sm text-slate-400">Chưa có dữ liệu chi tiêu tháng này để gợi ý.</p>

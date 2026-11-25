@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { upsertBudget } from "../lib/actions/budgets";
 import { Category } from "../generated/prisma/enums";
+import { robotCategoryLabel } from "../lib/robot-labels";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
@@ -34,23 +35,23 @@ export default function BudgetForm() {
   }, [state]);
 
   return (
-    <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_30px_rgba(34,211,238,0.08)]">
+    <Card className="robot-surface">
       <CardHeader>
-        <CardTitle className="text-slate-100">💰 Đặt ngân sách tháng</CardTitle>
+        <CardTitle className="text-slate-100">Đặt hạn mức chi tháng</CardTitle>
       </CardHeader>
       <CardContent>
         <form action={formAction} className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 min-[370px]:grid-cols-2">
             <div className="grid gap-2">
-              <Label className="text-slate-200">Danh mục</Label>
+              <Label className="text-slate-200">Hạng mục</Label>
               <input type="hidden" name="category" value={category} />
               <Select value={category} onValueChange={(v) => setCategory(v as Category)}>
-                <SelectTrigger className="rounded-xl border-slate-700 bg-slate-950/70 text-white">
-                  <SelectValue />
+                <SelectTrigger aria-label="Hạng mục" className="w-full">
+                  <SelectValue>{robotCategoryLabel(category)}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {Object.values(Category).map((c) => (
-                    <SelectItem key={c} value={c}>{c.replaceAll("_", " ")}</SelectItem>
+                    <SelectItem key={c} value={c}>{robotCategoryLabel(c)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -66,7 +67,7 @@ export default function BudgetForm() {
           </div>
 
           <Button type="submit" disabled={isPending}
-            className="w-full rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 font-semibold text-slate-950 shadow-md shadow-fuchsia-500/30 hover:from-cyan-300 hover:to-fuchsia-400">
+            className="robot-submit w-full">
             {isPending ? "Đang lưu..." : "Lưu ngân sách"}
           </Button>
         </form>

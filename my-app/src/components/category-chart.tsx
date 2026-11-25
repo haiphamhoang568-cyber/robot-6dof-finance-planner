@@ -1,59 +1,76 @@
 "use client";
 
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { ChartPie } from "lucide-react";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import type { CategoryTotal } from "../lib/charts";
+import { robotCategoryLabel } from "../lib/robot-labels";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 
 const COLORS = [
-  "#22d3ee",
-  "#e879f9",
-  "#a78bfa",
-  "#fbbf24",
-  "#34d399",
-  "#fb7185",
-  "#94a3b8",
-  "#f97316",
+  "#78e4ef",
+  "#ffc27e",
+  "#8ee3b6",
+  "#9aaaf5",
+  "#e8a5bb",
+  "#a9c683",
+  "#70aee3",
+  "#f3de86",
 ];
 
 export default function CategoryChart({ data }: { data: CategoryTotal[] }) {
+  const entries = data.map((entry, index) => ({
+    ...entry,
+    label: robotCategoryLabel(entry.category),
+    color: COLORS[index % COLORS.length],
+  }));
+
   return (
-    <Card className="rounded-3xl border-fuchsia-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(232,121,249,0.08)]">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-slate-100">🍕 Chi theo danh mục</CardTitle>
+    <Card className="robot-surface">
+      <CardHeader>
+        <CardTitle className="robot-panel-title">
+          <ChartPie size={18} aria-hidden="true" /> Chi phí theo hạng mục
+        </CardTitle>
       </CardHeader>
       <CardContent>
-        {data.length === 0 ? (
-          <p className="py-8 text-center text-sm text-slate-400">Chưa có khoản chi nào.</p>
-        ) : (
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={data}
-                  dataKey="total"
-                  nameKey="category"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  label={({ category, percent }: { category?: string; percent?: number }) =>
-                    `${(category ?? "").replaceAll("_", " ")} ${((percent ?? 0) * 100).toFixed(0)}%`
-                  }
-                >
-                  {data.map((entry, i) => (
-                    <Cell key={entry.category} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(v) =>
-                    typeof v === "number" ? `${v.toLocaleString("vi-VN")} đ` : v
-                  }
-                  contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #164e63", borderRadius: 12 }}
-                  labelStyle={{ color: "#e2e8f0" }}
-                />
-                <Legend wrapperStyle={{ color: "#e2e8f0" }} />
-              </PieChart>
-            </ResponsiveContainer>
+        {entries.length === 0 ? (
+          <div className="robot-chart-empty">
+            <ChartPie size={33} aria-hidden="true" />
+            <p>Chưa ghi khoản chi nào cho dự án.</p>
           </div>
+        ) : (
+          <>
+            <div className="h-52 w-full">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                <PieChart>
+                  <Pie
+                    data={entries}
+                    dataKey="total"
+                    nameKey="label"
+                    innerRadius="52%"
+                    outerRadius="82%"
+                    paddingAngle={2}
+                    stroke="#0d1b28"
+                    isAnimationActive={false}
+                  >
+                    {entries.map((entry) => <Cell key={entry.category} fill={entry.color} />)}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value) => typeof value === "number" ? value.toLocaleString("vi-VN") + " ₫" : value}
+                    contentStyle={{ backgroundColor: "#102332", border: "1px solid #355465", borderRadius: 10 }}
+                    itemStyle={{ color: "#e7f7fb" }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <ul className="robot-chart-legend" aria-label="Hạng mục chi phí">
+              {entries.map((entry) => (
+                <li key={entry.category}>
+                  <span style={{ background: entry.color }} aria-hidden="true" />
+                  {entry.label}
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </CardContent>
     </Card>

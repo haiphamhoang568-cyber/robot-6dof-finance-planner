@@ -34,7 +34,7 @@ export async function createWishlistItem(
   });
 
   revalidatePath("/");
-  return { ok: true, message: "Đã thêm món vào wishlist." };
+  return { ok: true, message: "Đã thêm linh kiện vào danh sách mua." };
 }
 
 export async function updateWishlistItem(
@@ -43,7 +43,7 @@ export async function updateWishlistItem(
 ): Promise<WishlistActionState> {
   const id = formData.get("id");
   if (typeof id !== "string" || !id) {
-    return { ok: false, message: "Thiếu id món wishlist." };
+    return { ok: false, message: "Thiếu mã linh kiện." };
   }
 
   const user = await requireUser();
@@ -71,7 +71,7 @@ export async function updateWishlistItem(
   });
 
   revalidatePath("/");
-  return { ok: true, message: "Đã cập nhật wishlist." };
+  return { ok: true, message: "Đã cập nhật linh kiện." };
 }
 
 export async function deleteWishlistItem(id: string) {

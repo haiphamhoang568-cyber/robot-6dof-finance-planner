@@ -1,4 +1,9 @@
 import { connection } from "next/server";
+import { Toaster } from "sonner";
+import {
+  ArrowDownLeft, ArrowUpRight, CalendarClock, CircuitBoard, ClipboardList,
+  Plus, ScanLine, Wallet,
+} from "lucide-react";
 import { prisma } from "@/src/lib/prisma";
 import { requireUser } from "@/src/lib/dal";
 import TransactionForm from "../src/components/transaction-form";
@@ -24,10 +29,10 @@ import {
   savingsSuggestion,
 } from "../src/lib/insights";
 import LogoutButton from "../src/components/logout-button";
-import NeonOrbs from "../src/components/neon-orbs";
 import { Category } from "../src/generated/prisma/enums";
 import type { Prisma } from "../src/generated/prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import "./robot-dashboard.css";
 
 export const instant = false;
 
@@ -122,59 +127,151 @@ export default async function Home({
     .filter((t) => t.type === "EXPENSE")
     .reduce((s, t) => s + t.amount, 0);
   const balance = income - expense;
+  const hasFilters = month !== "all" || type !== "all" || category !== "all";
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-slate-950 px-4 py-8">
-      <div aria-hidden className="neon-grid pointer-events-none absolute inset-0" />
-      <div aria-hidden className="pointer-events-none absolute -left-20 top-16 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl" />
-      <div aria-hidden className="pointer-events-none absolute right-0 top-1/3 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
-      <NeonOrbs />
-      <div className="relative mx-auto max-w-3xl space-y-6">
-        <header className="relative overflow-hidden rounded-3xl border border-cyan-500/30 bg-slate-900/80 p-6 shadow-[0_0_40px_rgba(34,211,238,0.15)] sm:p-8">
-          <div className="relative flex items-start justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="h-3 w-3 rotate-45 bg-cyan-400 shadow-[0_0_12px_2px_rgba(34,211,238,0.8)]" />
-                <h1 className="font-cyber neon-text-cyan text-2xl text-white sm:text-3xl">Minh Ân</h1>
-              </div>
-              <p className="mt-2 text-sm text-slate-400">thằng không có tiền dạy người có tiền quản lý tiền bạc</p>
-              <div className="mt-3 h-px w-48 bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-transparent" />
-            </div>
-            <LogoutButton />
-          </div>
-        </header>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(34,211,238,0.08)]">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-cyan-300">💰 Số dư</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-white">{balance.toLocaleString("vi-VN")} đ</p>
-            </CardContent>
-          </Card>
-          <Card className="rounded-3xl border-cyan-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(34,211,238,0.08)]">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-cyan-300">📈 Tổng thu</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-cyan-300">{income.toLocaleString("vi-VN")} đ</p>
-            </CardContent>
-          </Card>
-          <Card className="rounded-3xl border-fuchsia-500/20 bg-slate-900/80 shadow-[0_0_25px_rgba(232,121,249,0.08)]">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-fuchsia-300">📉 Tổng chi</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold text-fuchsia-400">{expense.toLocaleString("vi-VN")} đ</p>
-            </CardContent>
-          </Card>
+    <main className="robot-dashboard min-h-screen text-slate-100">
+      <header className="robot-topbar">
+        <div className="robot-container robot-topbar-inner">
+          <a className="robot-brand" href="#tong-quan">
+            <span className="robot-brand-mark" aria-hidden="true"><CircuitBoard size={21} /></span>
+            <span>Phạm Hoàng Hải</span>
+          </a>
+          <nav className="robot-nav" aria-label="Điều hướng dự án">
+            <a href="#tong-quan">Tổng quan</a>
+            <a href="#giao-dich">Giao dịch</a>
+            <a href="#linh-kien">Linh kiện</a>
+            <a href="#ngan-sach">Ngân sách</a>
+            <a href="#dinh-ky">Định kỳ</a>
+          </nav>
+          <LogoutButton />
         </div>
+      </header>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="robot-container robot-content">
+        <section id="tong-quan" className="robot-hero" aria-labelledby="robot-dashboard-title">
+          <div className="robot-hero-copy">
+            <h1 id="robot-dashboard-title">Quản lý thu chi <span>Robot 6DOF</span></h1>
+            <p>Theo dõi tiền vào quỹ, chi phí chế tạo và kế hoạch mua linh kiện.</p>
+            <a className="robot-hero-action" href="#giao-dich"><Plus size={17} aria-hidden="true" /> Ghi giao dịch</a>
+          </div>
+          <div className="robot-hero-visual" aria-hidden="true">
+            <div className="robot-arm-drawing">
+              <span className="robot-arm-orbit" />
+              <span className="robot-arm-platform" />
+              <span className="robot-arm-base" />
+              <span className="robot-arm-link robot-arm-link-one" />
+              <span className="robot-arm-link robot-arm-link-two" />
+              <span className="robot-arm-link robot-arm-link-three" />
+              <span className="robot-arm-joint robot-arm-shoulder" />
+              <span className="robot-arm-joint robot-arm-elbow" />
+              <span className="robot-arm-joint robot-arm-wrist" />
+              <span className="robot-arm-gripper" />
+            </div>
+          </div>
+        </section>
+
+        <section aria-label="Tổng hợp quỹ robot">
+          {hasFilters && <p className="robot-filter-note">Số liệu quỹ theo bộ lọc giao dịch đang chọn.</p>}
+          <div className="robot-metrics">
+            {[
+              { title: "Quỹ còn lại", amount: balance, icon: Wallet, tone: "balance" },
+              { title: "Tổng thu vào quỹ", amount: income, icon: ArrowDownLeft, tone: "income" },
+              { title: "Chi phí chế tạo", amount: expense, icon: ArrowUpRight, tone: "expense" },
+            ].map(({ title, amount, icon: Icon, tone }) => (
+              <Card key={tone} className="robot-surface robot-metric" data-tone={tone}>
+                <CardHeader>
+                  <CardTitle className="robot-metric-label">
+                    <span className="robot-metric-icon"><Icon size={18} aria-hidden="true" /></span>
+                    {title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="robot-metric-value">{amount.toLocaleString("vi-VN")} <span>₫</span></p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <div className="robot-charts">
           <MonthlyChart data={monthly} />
           <CategoryChart data={byCategory} />
         </div>
+
+        <section id="giao-dich" className="robot-section" aria-labelledby="robot-transactions-title">
+          <h2 id="robot-transactions-title"><ClipboardList size={21} aria-hidden="true" /> Sổ thu chi dự án</h2>
+          <div className="robot-section-grid">
+            <TransactionForm />
+            <div className="robot-records">
+              <h3>Giao dịch đã ghi</h3>
+              <TransactionFilters month={month} category={category} type={type} />
+              {transactions.length > 0 ? (
+                <ul className="robot-list">
+                  {transactions.map((tx) => <TransactionRow key={tx.id} tx={tx} />)}
+                </ul>
+              ) : (
+                <p className="robot-empty">{hasFilters ? "Không có giao dịch khớp bộ lọc." : "Chưa có giao dịch nào."}</p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section id="linh-kien" className="robot-section" aria-labelledby="robot-parts-title">
+          <h2 id="robot-parts-title"><CircuitBoard size={21} aria-hidden="true" /> Linh kiện dự kiến mua</h2>
+          <div className="robot-section-grid">
+            <WishlistForm />
+            <div className="robot-records">
+              <h3>Kế hoạch mua linh kiện</h3>
+              {wishlist.length > 0 ? (
+                <ul className="robot-list">
+                  {wishlist.map((w) => <WishlistRow key={w.id} item={w} balance={balance} />)}
+                </ul>
+              ) : (
+                <p className="robot-empty">Chưa có linh kiện nào trong danh sách mua.</p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section id="ngan-sach" className="robot-section" aria-labelledby="robot-budgets-title">
+          <h2 id="robot-budgets-title"><ScanLine size={21} aria-hidden="true" /> Ngân sách theo hạng mục</h2>
+          <div className="robot-section-grid">
+            <BudgetForm />
+            <div className="robot-records">
+              <h3>Hạn mức tháng này</h3>
+              {budgets.length > 0 ? (
+                <ul className="robot-list">
+                  {budgets.map((b) => (
+                    <BudgetRow key={b.id} budget={b} spent={spentByCategory.get(b.category) ?? 0} />
+                  ))}
+                </ul>
+              ) : (
+                <p className="robot-empty">Chưa đặt hạn mức cho hạng mục nào.</p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section id="dinh-ky" className="robot-section" aria-labelledby="robot-recurring-title">
+          <h2 id="robot-recurring-title"><CalendarClock size={21} aria-hidden="true" /> Thu chi định kỳ</h2>
+          <div className="robot-section-grid">
+            <RecurringForm />
+            <div className="robot-records">
+              <div className="robot-records-heading">
+                <h3>Lịch thu chi hằng tháng</h3>
+                <GenerateRecurringButton />
+              </div>
+              {recurring.length > 0 ? (
+                <ul className="robot-list">
+                  {recurring.map((r) => <RecurringRow key={r.id} item={r} />)}
+                </ul>
+              ) : (
+                <p className="robot-empty">Chưa lên lịch khoản thu chi định kỳ.</p>
+              )}
+            </div>
+          </div>
+        </section>
 
         <InsightsPanel
           health={health}
@@ -184,48 +281,8 @@ export default async function Home({
           streak={streak}
           suggestion={suggestion}
         />
-
-        <TransactionForm />
-
-        <h2 className="text-xl font-semibold text-slate-100">🧾 Giao dịch</h2>
-        <TransactionFilters month={month} category={category} type={type} />
-        <ul className="space-y-3">
-          {transactions.map((tx) => (
-            <TransactionRow key={tx.id} tx={tx} />
-          ))}
-        </ul>
-
-        <h2 className="text-xl font-semibold text-slate-100">🎁 Wishlist</h2>
-        <WishlistForm />
-        <ul className="space-y-3">
-          {wishlist.map((w) => (
-            <WishlistRow key={w.id} item={w} balance={balance} />
-          ))}
-        </ul>
-
-        <h2 className="text-xl font-semibold text-slate-100">💰 Ngân sách tháng</h2>
-        <BudgetForm />
-        <ul className="space-y-3">
-          {budgets.map((b) => (
-            <BudgetRow
-              key={b.id}
-              budget={b}
-              spent={spentByCategory.get(b.category) ?? 0}
-            />
-          ))}
-        </ul>
-
-        <h2 className="text-xl font-semibold text-slate-100">🔁 Hóa đơn định kỳ</h2>
-        <div className="flex flex-wrap items-center gap-3">
-          <GenerateRecurringButton />
-        </div>
-        <RecurringForm />
-        <ul className="space-y-3">
-          {recurring.map((r) => (
-            <RecurringRow key={r.id} item={r} />
-          ))}
-        </ul>
       </div>
+      <Toaster theme="dark" position="bottom-right" />
     </main>
   );
 }

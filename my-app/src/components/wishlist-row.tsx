@@ -20,7 +20,7 @@ const PRIORITY_LABELS: Record<WishlistFormData["priority"], string> = {
 const PRIORITY_BADGE: Record<WishlistFormData["priority"], string> = {
   LOW: "bg-slate-800 text-slate-300",
   MEDIUM: "bg-cyan-500/15 text-cyan-300",
-  HIGH: "bg-fuchsia-500/15 text-fuchsia-300",
+  HIGH: "bg-amber-500/15 text-amber-200",
 };
 
 export default function WishlistRow({
@@ -34,30 +34,38 @@ export default function WishlistRow({
   const milestone = savingsMilestone(balance, item.cost);
   const deadline = wishlistDailySaving(balance, item.cost, item.targetDate);
   return (
-    <li className="rounded-2xl border border-slate-800 bg-slate-900/80 p-4 shadow-sm">
-      <div className="flex items-center gap-3">
-        <span className="flex-1 font-medium text-slate-100">{item.name}</span>
-        <Badge variant="secondary" className={`rounded-full hover:bg-slate-800 ${PRIORITY_BADGE[item.priority]}`}>
-          {PRIORITY_LABELS[item.priority]}
-        </Badge>
-        <span className="w-32 shrink-0 text-right text-sm font-semibold text-cyan-300">
-          {item.cost.toLocaleString("vi-VN")} đ
-        </span>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => setEditing((v) => !v)}
-          className="rounded-full border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10 hover:text-cyan-200"
-        >
-          {editing ? "Đóng" : "Sửa"}
-        </Button>
-        <WishlistDeleteButton id={item.id} />
+    <li className="robot-entry">
+      <div className="robot-entry-line">
+        <div className="robot-entry-details">
+          <strong>{item.name}</strong>
+          <div className="robot-entry-meta">
+            <span>Ưu tiên</span>
+            <Badge variant="secondary" className={PRIORITY_BADGE[item.priority]}>
+              {PRIORITY_LABELS[item.priority]}
+            </Badge>
+          </div>
+        </div>
+        <div className="robot-entry-actions">
+          <span className="robot-entry-amount text-cyan-300">
+            {item.cost.toLocaleString("vi-VN")} ₫
+          </span>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            aria-expanded={editing}
+            onClick={() => setEditing((v) => !v)}
+            className="border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10 hover:text-cyan-200"
+          >
+            {editing ? "Đóng" : "Sửa"}
+          </Button>
+          <WishlistDeleteButton id={item.id} />
+        </div>
       </div>
       <SavingsProgress milestone={milestone} />
       {item.targetDate && (
         <p className="mt-1 text-right text-xs text-slate-400">
-          🎯 Hạn {new Date(item.targetDate).toLocaleDateString("vi-VN")} ·{" "}
+          Dự kiến mua {new Date(item.targetDate).toLocaleDateString("vi-VN")} ·{" "}
           {deadline.reachable
             ? deadline.dailyNeeded === 0
               ? "đã đủ tiền!"

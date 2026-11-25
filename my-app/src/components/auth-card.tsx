@@ -59,9 +59,20 @@ function NeonMoon() {
   );
 }
 
-function NeonTree({ left, size, color }: { left: string; size: number; color: string }) {
+function NeonTree({
+  left,
+  size,
+  color,
+}: {
+  left: string;
+  size: number;
+  color: string;
+}) {
   return (
-    <div className="absolute bottom-24 flex flex-col items-center" style={{ left }}>
+    <div
+      className="absolute bottom-24 flex flex-col items-center"
+      style={{ left }}
+    >
       <div
         className="rounded-[2px]"
         style={{
@@ -89,7 +100,10 @@ function NeonCar({
   return (
     <div className={"relative h-10 w-20" + (flip ? " scale-x-[-1]" : "")}>
       <div
-        className={"absolute bottom-1 left-0 h-5 w-20 rounded-md bg-gradient-to-r " + body}
+        className={
+          "absolute bottom-1 left-0 h-5 w-20 rounded-md bg-gradient-to-r " +
+          body
+        }
         style={{ boxShadow: "0 0 16px 2px " + glow }}
       />
       <div className="absolute bottom-[22px] left-5 h-4 w-9 rounded-t-md bg-slate-200/85" />
@@ -128,54 +142,108 @@ function Panda({
       : "bg-amber-300 shadow-[0_0_16px_4px_rgba(251,191,36,0.9)]";
   const showOrb = action === "holding" && holdingBody !== null;
   const innerCls =
-    mood === "happy" ? "animate-panda-happy" :
-    mood === "angry" ? "animate-panda-angry" :
-    mood === "sleeping" ? "animate-panda-sleep" :
-    moving ? "animate-panda-run" : "animate-panda-idle";
-  const armCls = clinging ? " arm-cling" : mood === "happy" ? " arm-happy" : grabbing ? " animate-arm-reach" : "";
-  const blushCls = mood === "angry" ? "bg-red-500" : "bg-pink-300/90";
+    mood === "happy"
+      ? "animate-panda-happy"
+      : mood === "angry"
+        ? "animate-panda-angry"
+        : mood === "sleeping"
+          ? "animate-panda-sleep"
+          : moving
+            ? "animate-panda-run"
+            : "animate-panda-idle";
+  const armCls = clinging
+    ? " arm-cling"
+    : mood === "happy"
+      ? " arm-happy"
+      : grabbing
+        ? " animate-arm-reach"
+        : "";
+  const ledCls = mood === "angry" ? "bg-rose-400" : "bg-cyan-300";
   return (
-    <div ref={innerRef} className={innerCls + (mood === "angry" ? " panda-angry-glow" : "") + " relative h-20 w-16"}>
-      <span className="absolute left-0.5 top-0 h-4 w-4 rounded-full bg-slate-900" />
-      <span className="absolute right-0.5 top-0 h-4 w-4 rounded-full bg-slate-900" />
-      <div className="absolute left-1/2 top-2 h-14 w-14 -translate-x-1/2 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.4)]" style={{ backgroundColor: "#ffffff" }}>
-        <span className="absolute left-[9px] top-[14px] h-5 w-3 rotate-[25deg] rounded-full bg-slate-900" />
-        <span className="absolute right-[9px] top-[14px] h-5 w-3 -rotate-[25deg] rounded-full bg-slate-900" />
+    <div
+      ref={innerRef}
+      className={
+        innerCls +
+        (mood === "angry" ? " panda-angry-glow" : "") +
+        " relative h-20 w-16"
+      }
+    >
+      <span className="absolute left-1/2 top-0 h-3 w-1 -translate-x-1/2 rounded bg-sky-500" />
+      <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-cyan-200 shadow-[0_0_10px_#67e8f9]" />
+      <span className="absolute left-0.5 top-[21px] h-4 w-2 rounded-md bg-sky-700" />
+      <span className="absolute right-0.5 top-[21px] h-4 w-2 rounded-md bg-sky-700" />
+      <div className="absolute left-1/2 top-2 h-12 w-14 -translate-x-1/2 rounded-[17px] border border-cyan-100/70 bg-gradient-to-br from-cyan-100 via-sky-300 to-sky-700 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+        <span className="absolute inset-x-1 top-2 h-8 rounded-xl border border-sky-600 bg-slate-950" />
         {mood === "happy" ? (
           <>
-            <span className="absolute left-[12px] top-[16px] h-[5px] w-2.5 rounded-t-full border-t-[2.5px] border-white" />
-            <span className="absolute right-[12px] top-[16px] h-[5px] w-2.5 rounded-t-full border-t-[2.5px] border-white" />
+            <span className="absolute left-[12px] top-[16px] h-[5px] w-2.5 rounded-t-full border-t-[2.5px] border-cyan-200" />
+            <span className="absolute right-[12px] top-[16px] h-[5px] w-2.5 rounded-t-full border-t-[2.5px] border-cyan-200" />
           </>
         ) : mood === "sleeping" ? (
           <>
-            <span className="absolute left-[12px] top-[17px] h-[5px] w-2.5 rounded-b-full border-b-[2.5px] border-white" />
-            <span className="absolute right-[12px] top-[17px] h-[5px] w-2.5 rounded-b-full border-b-[2.5px] border-white" />
+            <span className="absolute left-[12px] top-[17px] h-[5px] w-2.5 rounded-b-full border-b-[2.5px] border-cyan-200" />
+            <span className="absolute right-[12px] top-[17px] h-[5px] w-2.5 rounded-b-full border-b-[2.5px] border-cyan-200" />
           </>
         ) : (
           <>
-            <span className="absolute left-[13px] top-[17px] h-1.5 w-1.5 rounded-full bg-white" />
-            <span className="absolute right-[13px] top-[17px] h-1.5 w-1.5 rounded-full bg-white" />
+            <span className="absolute left-[13px] top-[17px] h-1.5 w-1.5 rounded-full bg-cyan-200" />
+            <span className="absolute right-[13px] top-[17px] h-1.5 w-1.5 rounded-full bg-cyan-200" />
           </>
         )}
-        <span className="absolute left-1/2 top-[30px] h-2 w-3 -translate-x-1/2 rounded-full bg-slate-900" />
+        <span className="absolute left-1/2 top-[29px] h-1 w-2 -translate-x-1/2 rounded-b-full border-b border-cyan-200" />
         {mood === "happy" && (
-          <span className="absolute left-1/2 top-[37px] h-1.5 w-3 -translate-x-1/2 rounded-b-full border-b-2 border-slate-900" />
+          <span className="absolute left-1/2 top-[28px] h-1.5 w-3 -translate-x-1/2 rounded-b-full border-b-2 border-cyan-200" />
         )}
-        <span className={"absolute left-[6px] top-[28px] h-2 w-2 rounded-full " + blushCls} />
-        <span className={"absolute right-[6px] top-[28px] h-2 w-2 rounded-full " + blushCls} />
+        <span
+          className={
+            "absolute left-[6px] top-[28px] h-2 w-2 rounded-full " + ledCls
+          }
+        />
+        <span
+          className={
+            "absolute right-[6px] top-[28px] h-2 w-2 rounded-full " + ledCls
+          }
+        />
         {mood === "angry" && (
           <>
-            <span className="absolute left-[9px] top-[11px] h-1 w-4 rotate-[24deg] rounded-full bg-slate-900" />
-            <span className="absolute right-[9px] top-[11px] h-1 w-4 -rotate-[24deg] rounded-full bg-slate-900" />
+            <span className="absolute left-[9px] top-[11px] h-1 w-4 rotate-[24deg] rounded-full bg-rose-200" />
+            <span className="absolute right-[9px] top-[11px] h-1 w-4 -rotate-[24deg] rounded-full bg-rose-200" />
           </>
         )}
       </div>
-      <div className="absolute bottom-0 left-1/2 h-7 w-11 -translate-x-1/2 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.4)]" style={{ backgroundColor: "#ffffff" }} />
-      <span className={"absolute bottom-1 left-1 h-3 w-3 rounded-full bg-slate-900 transition-transform duration-300" + armCls} />
-      <span className={"absolute bottom-1 right-1 h-3 w-3 rounded-full bg-slate-900 transition-transform duration-300" + armCls} />
-      <span className={"absolute bottom-0 left-[18px] h-2.5 w-3 rounded-full bg-slate-900" + (moving ? " animate-foot-run" : "")} />
+      <div className="absolute bottom-0 left-1/2 h-7 w-11 -translate-x-1/2 rounded-[12px] border border-sky-200/70 bg-gradient-to-br from-sky-100 to-sky-600 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+        <span
+          className="absolute bottom-2 left-1/2 flex h-3 -translate-x-1/2 items-end gap-[2px] rounded bg-slate-950 px-1 py-[2px]"
+          aria-hidden="true"
+        >
+          <span className="h-[3px] w-[2px] bg-cyan-300" />
+          <span className="h-[5px] w-[2px] bg-cyan-300" />
+          <span className="h-[7px] w-[2px] bg-cyan-300" />
+        </span>
+      </div>
       <span
-        className={"absolute bottom-0 right-[18px] h-2.5 w-3 rounded-full bg-slate-900" + (moving ? " animate-foot-run" : "")}
+        className={
+          "absolute bottom-1 left-1 h-3 w-3 rounded-md bg-sky-700 transition-transform duration-300" +
+          armCls
+        }
+      />
+      <span
+        className={
+          "absolute bottom-1 right-1 h-3 w-3 rounded-md bg-sky-700 transition-transform duration-300" +
+          armCls
+        }
+      />
+      <span
+        className={
+          "absolute bottom-0 left-[18px] h-2.5 w-3 rounded-md bg-sky-700" +
+          (moving ? " animate-foot-run" : "")
+        }
+      />
+      <span
+        className={
+          "absolute bottom-0 right-[18px] h-2.5 w-3 rounded-md bg-sky-700" +
+          (moving ? " animate-foot-run" : "")
+        }
         style={moving ? { animationDelay: "0.175s" } : undefined}
       />
       {showOrb && (
@@ -187,16 +255,32 @@ function Panda({
       )}
       {mood === "sleeping" && (
         <>
-          <span className="animate-z-float absolute -top-2 right-0 text-sm font-black text-cyan-200 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">Z</span>
-          <span className="animate-z-float absolute -top-5 right-3 text-base font-black text-cyan-200 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]" style={{ animationDelay: "0.9s" }}>Z</span>
-          <span className="animate-z-float absolute -top-8 right-1 text-lg font-black text-cyan-200 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]" style={{ animationDelay: "1.8s" }}>Z</span>
+          <span className="animate-z-float absolute -top-2 right-0 text-sm font-black text-cyan-200 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">
+            Z
+          </span>
+          <span
+            className="animate-z-float absolute -top-5 right-3 text-base font-black text-cyan-200 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]"
+            style={{ animationDelay: "0.9s" }}
+          >
+            Z
+          </span>
+          <span
+            className="animate-z-float absolute -top-8 right-1 text-lg font-black text-cyan-200 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]"
+            style={{ animationDelay: "1.8s" }}
+          >
+            Z
+          </span>
         </>
       )}
     </div>
   );
 }
 
-export default function AuthCard({ initialMode }: { initialMode: "login" | "register" }) {
+export default function AuthCard({
+  initialMode,
+}: {
+  initialMode: "login" | "register";
+}) {
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [name, setName] = useState("");
@@ -221,7 +305,9 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
   const sleepTimerRef = useRef<number | null>(null);
   const speechTimerRef = useRef<number | null>(null);
   const failCountRef = useRef(0);
-  const [pandaAction, setPandaAction] = useState<"idle" | "holding" | "throwing">("idle");
+  const [pandaAction, setPandaAction] = useState<
+    "idle" | "holding" | "throwing"
+  >("idle");
   const [holdingBody, setHoldingBody] = useState<"moon" | "sun" | null>(null);
   const [pandaMoving, setPandaMoving] = useState(false);
   const [grabbing, setGrabbing] = useState(false);
@@ -247,17 +333,30 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
   passwordRef.current = password;
 
   const physRef = useRef({
-    x: 192, y: -64, vx: 0, vy: 0,
-    targetX: null as number | null, targetY: null as number | null,
+    x: 192,
+    y: -64,
+    vx: 0,
+    vy: 0,
+    targetX: null as number | null,
+    targetY: null as number | null,
     purpose: "none" as "none" | "grab" | "cling" | "home",
     grabBody: "moon" as "moon" | "sun",
     clingDir: 0,
-    hy: 0, hvy: 0, airborne: false,
-    squash: 0, squashVel: 0,
-    orbX: 0, orbY: 0, orbVx: 0, orbVy: 0,
-    orbS: 0, orbSv: 0,
-    prevVx: 0, prevVy: 0,
-    moving: false, lean: 0,
+    hy: 0,
+    hvy: 0,
+    airborne: false,
+    squash: 0,
+    squashVel: 0,
+    orbX: 0,
+    orbY: 0,
+    orbVx: 0,
+    orbVy: 0,
+    orbS: 0,
+    orbSv: 0,
+    prevVx: 0,
+    prevVy: 0,
+    moving: false,
+    lean: 0,
     proj: { active: false, x: 0, y: 0, vx: 0, vy: 0, t: 0, T: 0.85 },
   });
   const arriveRef = useRef<() => void>(() => {});
@@ -273,9 +372,10 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
     const mainRect = mainRef.current?.getBoundingClientRect();
     if (!wrapRect || !mainRect) return null;
     return {
-      x: body === "moon"
-        ? mainRect.left + mainRect.width * 0.06 + 64 - wrapRect.left
-        : mainRect.left + mainRect.width * 0.94 - 64 - wrapRect.left,
+      x:
+        body === "moon"
+          ? mainRect.left + mainRect.width * 0.06 + 64 - wrapRect.left
+          : mainRect.left + mainRect.width * 0.94 - 64 - wrapRect.left,
       y: mainRect.top + mainRect.height * 0.08 + 64 - wrapRect.top,
     };
   }
@@ -286,7 +386,10 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
     const center = measureBodyCenter(body);
     if (!center) return null;
     return {
-      left: body === "moon" ? -wrapRect.left + 8 : window.innerWidth - wrapRect.left - 64 - 8,
+      left:
+        body === "moon"
+          ? -wrapRect.left + 8
+          : window.innerWidth - wrapRect.left - 64 - 8,
       top: center.y - 40,
     };
   }
@@ -298,17 +401,25 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
     const g = 1100;
     p.proj = {
       active: true,
-      x: startX, y: startY,
+      x: startX,
+      y: startY,
       vx: (tx - startX) / T,
       vy: (ty - startY - 0.5 * g * T * T) / T,
-      t: 0, T,
+      t: 0,
+      T,
     };
-    setProj({ cls: body === "moon" ? "bg-cyan-100 shadow-[0_0_16px_4px_rgba(165,243,252,0.9)]" : "bg-amber-300 shadow-[0_0_16px_4px_rgba(251,191,36,0.9)]" });
+    setProj({
+      cls:
+        body === "moon"
+          ? "bg-cyan-100 shadow-[0_0_16px_4px_rgba(165,243,252,0.9)]"
+          : "bg-amber-300 shadow-[0_0_16px_4px_rgba(251,191,36,0.9)]",
+    });
   }
 
   function showSpeech(text: string, ms = 3200) {
     setSpeech(text);
-    if (speechTimerRef.current !== null) window.clearTimeout(speechTimerRef.current);
+    if (speechTimerRef.current !== null)
+      window.clearTimeout(speechTimerRef.current);
     speechTimerRef.current = window.setTimeout(() => setSpeech(null), ms);
   }
 
@@ -320,12 +431,20 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
   }
 
   function resetIdleTimer() {
-    if (idleTimerRef.current !== null) window.clearTimeout(idleTimerRef.current);
+    if (idleTimerRef.current !== null)
+      window.clearTimeout(idleTimerRef.current);
     idleTimerRef.current = window.setTimeout(() => {
       const p = physRef.current;
-      if (emailRef.current === "" && passwordRef.current === "" && actionRef.current === "idle" && p.purpose === "none" && !switchLockedRef.current) {
+      if (
+        emailRef.current === "" &&
+        passwordRef.current === "" &&
+        actionRef.current === "idle" &&
+        p.purpose === "none" &&
+        !switchLockedRef.current
+      ) {
         showSpeech("ní tính đợi tới khi nào", 2500);
-        if (sleepTimerRef.current !== null) window.clearTimeout(sleepTimerRef.current);
+        if (sleepTimerRef.current !== null)
+          window.clearTimeout(sleepTimerRef.current);
         sleepTimerRef.current = window.setTimeout(() => {
           setMood("sleeping");
         }, 2500);
@@ -350,7 +469,12 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
   function registerFail() {
     failCountRef.current += 1;
     const n = failCountRef.current;
-    const msg = n === 1 ? "chán thế" : n === 2 ? "thật sự ní không biết à ?" : "đăng ký đi ní, nhìn ní tui thất vọng quá";
+    const msg =
+      n === 1
+        ? "chán thế"
+        : n === 2
+          ? "thật sự ní không biết à ?"
+          : "đăng ký đi ní, nhìn ní tui thất vọng quá";
     clearMoodTimer();
     setMood("angry");
     showSpeech(msg, 3200);
@@ -387,7 +511,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
     wakeAndResetIdle();
     const value = kind === "email" ? email : password;
     if (value.trim() === "") return;
-    const valid = kind === "email" ? isValidEmail(value) : isValidPassword(value);
+    const valid =
+      kind === "email" ? isValidEmail(value) : isValidPassword(value);
     if (valid) {
       failCountRef.current = 0;
       clearMoodTimer();
@@ -413,7 +538,11 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
     setMode(next);
     setError("");
     if (typeof window !== "undefined") {
-      window.history.replaceState(null, "", next === "login" ? "/login" : "/register");
+      window.history.replaceState(
+        null,
+        "",
+        next === "login" ? "/login" : "/register",
+      );
     }
   }
 
@@ -443,7 +572,7 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
     startTravel(
       rect.left - wrapRect.left + rect.width / 2 - 32,
       rect.top - wrapRect.top + rect.height / 2 - 40,
-      "grab"
+      "grab",
     );
     return true;
   }
@@ -468,7 +597,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
       p.hvy = -320;
       p.airborne = true;
     }
-    if (throwTimerRef.current !== null) window.clearTimeout(throwTimerRef.current);
+    if (throwTimerRef.current !== null)
+      window.clearTimeout(throwTimerRef.current);
     throwTimerRef.current = window.setTimeout(() => {
       setHoldingBody(null);
       setPandaAction("idle");
@@ -478,7 +608,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
   }
 
   function scheduleAutoThrow() {
-    if (autoThrowTimerRef.current !== null) window.clearTimeout(autoThrowTimerRef.current);
+    if (autoThrowTimerRef.current !== null)
+      window.clearTimeout(autoThrowTimerRef.current);
     autoThrowTimerRef.current = window.setTimeout(() => {
       autoThrowTimerRef.current = null;
       doThrowAndSwitch();
@@ -498,7 +629,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
       p.orbY = 0;
       p.orbVx = 0;
       p.orbVy = 0;
-      if (grabTimerRef.current !== null) window.clearTimeout(grabTimerRef.current);
+      if (grabTimerRef.current !== null)
+        window.clearTimeout(grabTimerRef.current);
       grabTimerRef.current = window.setTimeout(() => setGrabbing(false), 380);
       if (!p.airborne && p.hy === 0) {
         p.hvy = -520;
@@ -569,10 +701,14 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
   useEffect(() => {
     resetIdleTimer();
     return () => {
-      if (idleTimerRef.current !== null) window.clearTimeout(idleTimerRef.current);
-      if (sleepTimerRef.current !== null) window.clearTimeout(sleepTimerRef.current);
-      if (moodTimerRef.current !== null) window.clearTimeout(moodTimerRef.current);
-      if (speechTimerRef.current !== null) window.clearTimeout(speechTimerRef.current);
+      if (idleTimerRef.current !== null)
+        window.clearTimeout(idleTimerRef.current);
+      if (sleepTimerRef.current !== null)
+        window.clearTimeout(sleepTimerRef.current);
+      if (moodTimerRef.current !== null)
+        window.clearTimeout(moodTimerRef.current);
+      if (speechTimerRef.current !== null)
+        window.clearTimeout(speechTimerRef.current);
     };
   }, []);
 
@@ -639,7 +775,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
       p.prevVy = p.vy;
 
       if (orb) {
-        const k = 190, c = 13;
+        const k = 190,
+          c = 13;
         const oax = -k * p.orbX - c * p.orbVx - ax * 0.85;
         const oay = -k * p.orbY - c * p.orbVy - ay * 0.85;
         p.orbVx += oax * dt;
@@ -653,7 +790,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
         }
         p.orbSv += (-220 * p.orbS - 15 * p.orbSv) * dt;
         p.orbS += p.orbSv * dt;
-        orb.style.transform = "translate(" + p.orbX.toFixed(1) + "px," + p.orbY.toFixed(1) + "px)";
+        orb.style.transform =
+          "translate(" + p.orbX.toFixed(1) + "px," + p.orbY.toFixed(1) + "px)";
         orb.style.scale = Math.max(0, 1 + p.orbS).toFixed(3);
       }
 
@@ -666,7 +804,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
         pr.y += pr.vy * dt;
         const f = pr.t / pr.T;
         const op = f < 0.7 ? 1 : Math.max(0, 1 - (f - 0.7) / 0.3);
-        projEl.style.transform = "translate(" + pr.x.toFixed(1) + "px," + pr.y.toFixed(1) + "px)";
+        projEl.style.transform =
+          "translate(" + pr.x.toFixed(1) + "px," + pr.y.toFixed(1) + "px)";
         projEl.style.opacity = op.toFixed(2);
         if (pr.t >= pr.T) {
           pr.active = false;
@@ -675,7 +814,12 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
       }
 
       if (outer) {
-        outer.style.transform = "translate(" + p.x.toFixed(1) + "px," + (p.y + p.hy).toFixed(1) + "px)";
+        outer.style.transform =
+          "translate(" +
+          p.x.toFixed(1) +
+          "px," +
+          (p.y + p.hy).toFixed(1) +
+          "px)";
       }
 
       const speed = Math.hypot(p.vx, p.vy);
@@ -685,7 +829,12 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
         setPandaMoving(isMoving);
       }
       if (inner) {
-        const targetLean = p.clingDir !== 0 && !isMoving ? p.clingDir * 12 : isMoving ? Math.max(-18, Math.min(18, p.vx * 0.04)) : 0;
+        const targetLean =
+          p.clingDir !== 0 && !isMoving
+            ? p.clingDir * 12
+            : isMoving
+              ? Math.max(-18, Math.min(18, p.vx * 0.04))
+              : 0;
         p.lean += (targetLean - p.lean) * Math.min(1, dt * 10);
         inner.style.rotate = p.lean.toFixed(2) + "deg";
         const dur = Math.max(0.18, Math.min(0.55, 0.55 - speed / 1600));
@@ -728,7 +877,8 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
       setClinging(false);
       p.clingDir = 0;
       lockSwitch();
-      if (throwTimerRef.current !== null) window.clearTimeout(throwTimerRef.current);
+      if (throwTimerRef.current !== null)
+        window.clearTimeout(throwTimerRef.current);
       throwTimerRef.current = window.setTimeout(() => {
         setPandaAction("idle");
         goHome();
@@ -787,7 +937,11 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
         return;
       }
     } else {
-      const { error } = await authClient.signUp.email({ name, email, password });
+      const { error } = await authClient.signUp.email({
+        name,
+        email,
+        password,
+      });
       if (error) {
         setError(error.message ?? "Đăng ký thất bại");
         registerFail();
@@ -799,37 +953,62 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
   }
 
   const cardCls = isLogin
-    ? "border-fuchsia-500/30 bg-slate-950/80 shadow-[0_0_50px_rgba(232,121,249,0.15)] backdrop-blur-md"
-    : "border-cyan-500/30 bg-slate-950/80 shadow-[0_0_50px_rgba(34,211,238,0.15)] backdrop-blur-md";
-  const titleGlowCls = isLogin ? "neon-text-pink" : "neon-text-cyan";
-  const subCls = isLogin ? "text-fuchsia-300" : "text-cyan-300";
+    ? "border-cyan-400/30 bg-slate-950/80 shadow-[0_0_50px_rgba(34,211,238,0.15)] backdrop-blur-md"
+    : "border-sky-400/30 bg-slate-950/80 shadow-[0_0_50px_rgba(56,189,248,0.15)] backdrop-blur-md";
+  const titleGlowCls = "neon-text-cyan";
+  const subCls = isLogin ? "text-cyan-200" : "text-sky-200";
   const labelCls = "text-slate-200";
   const inputCls = isLogin
-    ? "rounded-xl border border-fuchsia-500/30 bg-slate-900/70 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-500 focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/30"
-    : "rounded-xl border border-cyan-500/30 bg-slate-900/70 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30";
+    ? "rounded-xl border border-cyan-500/30 bg-slate-900/70 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+    : "rounded-xl border border-sky-500/30 bg-slate-900/70 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-500 focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30";
   const btnCls = isLogin
-    ? "rounded-full bg-gradient-to-r from-fuchsia-500 via-pink-500 to-orange-400 py-2.5 font-semibold text-white shadow-lg shadow-fuchsia-500/40 transition hover:from-fuchsia-400 hover:via-pink-400 hover:to-orange-300"
-    : "rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 py-2.5 font-semibold text-white shadow-lg shadow-cyan-500/40 transition hover:from-cyan-300 hover:to-blue-500";
+    ? "rounded-full bg-gradient-to-r from-cyan-300 to-sky-400 py-2.5 font-semibold text-slate-950 shadow-lg shadow-cyan-500/30 transition hover:from-cyan-200 hover:to-sky-300"
+    : "rounded-full bg-gradient-to-r from-sky-300 to-cyan-400 py-2.5 font-semibold text-slate-950 shadow-lg shadow-sky-500/30 transition hover:from-sky-200 hover:to-cyan-300";
   const switchTextCls = "text-slate-400";
-  const switchBtnCls = isLogin ? "text-fuchsia-300" : "text-cyan-300";
+  const switchBtnCls = isLogin ? "text-cyan-200" : "text-sky-200";
   const diamondCls = isLogin
-    ? "bg-fuchsia-400 shadow-[0_0_12px_2px_rgba(232,121,249,0.8)]"
-    : "bg-cyan-400 shadow-[0_0_12px_2px_rgba(34,211,238,0.8)]";
+    ? "bg-cyan-300 shadow-[0_0_12px_2px_rgba(34,211,238,0.8)]"
+    : "bg-sky-300 shadow-[0_0_12px_2px_rgba(56,189,248,0.8)]";
   const skyDurCls = grabbing ? "duration-200 " : "duration-1000 ";
 
   return (
-    <main ref={mainRef} className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-8">
+    <main
+      ref={mainRef}
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-8"
+    >
       <div
-        className={"absolute inset-0 bg-gradient-to-b from-[#0a0618] via-[#1c0b33] to-[#0a0618] transition-opacity duration-1000 " + (isLogin ? "opacity-100" : "opacity-0")}
+        className={
+          "absolute inset-0 bg-gradient-to-b from-[#07131f] via-[#12384c] to-[#07131f] transition-opacity duration-1000 " +
+          (isLogin ? "opacity-100" : "opacity-0")
+        }
       />
       <div
-        className={"absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a1a33] to-[#0e2a4a] transition-opacity duration-1000 " + (isLogin ? "opacity-0" : "opacity-100")}
+        className={
+          "absolute inset-0 bg-gradient-to-b from-[#081424] via-[#0d2e47] to-[#0b2035] transition-opacity duration-1000 " +
+          (isLogin ? "opacity-0" : "opacity-100")
+        }
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(103,232,249,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(103,232,249,0.06) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
       />
 
       <div
         ref={sunRef}
         aria-hidden
-        className={"absolute right-[6%] top-[8%] hidden transition-all sm:block " + skyDurCls + (isLogin ? "translate-y-0 opacity-100" : "translate-y-32 opacity-0") + " " + (holdingBody === "sun" ? "scale-0" : "scale-100")}
+        className={
+          "absolute right-[6%] top-[8%] hidden transition-all sm:block " +
+          skyDurCls +
+          (isLogin ? "translate-y-0 opacity-100" : "translate-y-32 opacity-0") +
+          " " +
+          (holdingBody === "sun" ? "scale-0" : "scale-100")
+        }
       >
         <NeonSun />
       </div>
@@ -837,90 +1016,216 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
       <div
         ref={moonRef}
         aria-hidden
-        className={"absolute left-[6%] top-[8%] hidden transition-all sm:block " + skyDurCls + (isLogin ? "-translate-y-32 opacity-0" : "translate-y-0 opacity-100") + " " + (holdingBody === "moon" ? "scale-0" : "scale-100")}
+        className={
+          "absolute left-[6%] top-[8%] hidden transition-all sm:block " +
+          skyDurCls +
+          (isLogin
+            ? "-translate-y-32 opacity-0"
+            : "translate-y-0 opacity-100") +
+          " " +
+          (holdingBody === "moon" ? "scale-0" : "scale-100")
+        }
       >
         <NeonMoon />
       </div>
 
       <div
         aria-hidden
-        className={"pointer-events-none absolute inset-0 transition-opacity duration-1000 " + (isLogin ? "opacity-0" : "opacity-100")}
+        className={
+          "pointer-events-none absolute inset-0 transition-opacity duration-1000 " +
+          (isLogin ? "opacity-0" : "opacity-100")
+        }
       >
         {STARS.map((s, i) => (
           <span
             key={i}
             className="animate-neon-pulse absolute rounded-full bg-cyan-100"
-            style={{ top: s.top, left: s.left, width: s.size, height: s.size, animationDelay: s.delay }}
+            style={{
+              top: s.top,
+              left: s.left,
+              width: s.size,
+              height: s.size,
+              animationDelay: s.delay,
+            }}
           />
         ))}
       </div>
 
       <NeonOrbs />
 
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0"
+      >
         {TREES.map((t, i) => (
           <NeonTree key={i} left={t.left} size={t.size} color={t.color} />
         ))}
         <div className="absolute inset-x-0 bottom-0 h-24 border-t border-cyan-500/20 bg-slate-900/90">
           <div className="absolute left-0 right-0 top-1/2 h-[3px] -translate-y-1/2 bg-[repeating-linear-gradient(90deg,transparent_0_24px,rgba(34,211,238,0.55)_24px_48px)]" />
-          <div className="animate-drive-right absolute left-0 top-2" style={{ animationDelay: "-4s" }}>
-            <NeonCar body="from-cyan-400 to-blue-500" glow="rgba(34,211,238,0.6)" />
+          <div
+            className="animate-drive-right absolute left-0 top-2"
+            style={{ animationDelay: "-4s" }}
+          >
+            <NeonCar
+              body="from-cyan-400 to-blue-500"
+              glow="rgba(34,211,238,0.6)"
+            />
           </div>
-          <div className="animate-drive-right absolute left-0 top-2" style={{ animationDelay: "-11s" }}>
-            <NeonCar body="from-fuchsia-400 to-purple-600" glow="rgba(232,121,249,0.6)" />
+          <div
+            className="animate-drive-right absolute left-0 top-2"
+            style={{ animationDelay: "-11s" }}
+          >
+            <NeonCar
+              body="from-fuchsia-400 to-purple-600"
+              glow="rgba(232,121,249,0.6)"
+            />
           </div>
-          <div className="animate-drive-left absolute left-0 top-[52px]" style={{ animationDelay: "-7s" }}>
-            <NeonCar body="from-violet-400 to-purple-600" glow="rgba(168,85,247,0.6)" flip />
+          <div
+            className="animate-drive-left absolute left-0 top-[52px]"
+            style={{ animationDelay: "-7s" }}
+          >
+            <NeonCar
+              body="from-violet-400 to-purple-600"
+              glow="rgba(168,85,247,0.6)"
+              flip
+            />
           </div>
-          <div className="animate-drive-left absolute left-0 top-[52px]" style={{ animationDelay: "-14s" }}>
-            <NeonCar body="from-amber-300 to-orange-500" glow="rgba(251,191,36,0.6)" flip />
+          <div
+            className="animate-drive-left absolute left-0 top-[52px]"
+            style={{ animationDelay: "-14s" }}
+          >
+            <NeonCar
+              body="from-amber-300 to-orange-500"
+              glow="rgba(251,191,36,0.6)"
+              flip
+            />
           </div>
         </div>
       </div>
 
       <div ref={cardRef} className="relative w-full max-w-md">
-        <div ref={pandaOuterRef} className="absolute z-10" style={{ left: 0, top: 0, transform: "translate(192px, -64px)" }}>
+        <div
+          ref={pandaOuterRef}
+          className="absolute z-10"
+          style={{ left: 0, top: 0, transform: "translate(192px, -64px)" }}
+        >
           {speech && (
             <div className="absolute bottom-full left-1/2 mb-3 max-w-[240px] -translate-x-1/2 rounded-2xl border border-cyan-400/50 bg-slate-900/95 px-3 py-1.5 text-center text-xs font-medium text-cyan-100 shadow-[0_0_16px_rgba(34,211,238,0.35)]">
               {speech}
               <span className="absolute -bottom-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rotate-45 border-b border-r border-cyan-400/50 bg-slate-900" />
             </div>
           )}
-          <div key={"panda-" + mode} className={(pandaAction === "throwing" ? (throwDir === "right" ? "animate-panda-throw-right" : "animate-panda-throw-left") : "animate-panda-jump") + " relative"}>
-            <Panda holdingBody={holdingBody} action={pandaAction} moving={pandaMoving} grabbing={grabbing} clinging={clinging} mood={mood} orbRef={orbRef} innerRef={pandaInnerRef} />
+          <div
+            key={"panda-" + mode}
+            className={
+              (pandaAction === "throwing"
+                ? throwDir === "right"
+                  ? "animate-panda-throw-right"
+                  : "animate-panda-throw-left"
+                : "animate-panda-jump") + " relative"
+            }
+          >
+            <Panda
+              holdingBody={holdingBody}
+              action={pandaAction}
+              moving={pandaMoving}
+              grabbing={grabbing}
+              clinging={clinging}
+              mood={mood}
+              orbRef={orbRef}
+              innerRef={pandaInnerRef}
+            />
           </div>
         </div>
         {proj && (
-          <div ref={projRef} className={"absolute z-10 h-5 w-5 rounded-full " + proj.cls} style={{ left: 0, top: 0 }} />
+          <div
+            ref={projRef}
+            className={"absolute z-10 h-5 w-5 rounded-full " + proj.cls}
+            style={{ left: 0, top: 0 }}
+          />
         )}
         <div
           key={mode}
-          className={"relative w-full rounded-[2rem] border p-8 shadow-xl " + (isLogin ? "animate-slide-from-right" : "animate-slide-from-left") + " " + cardCls}
+          className={
+            "relative w-full rounded-[2rem] border p-8 shadow-xl " +
+            (isLogin ? "animate-slide-from-right" : "animate-slide-from-left") +
+            " " +
+            cardCls
+          }
         >
           <div className="mb-6 text-center">
             <div className="flex items-center justify-center gap-3">
               <span className={"h-3 w-3 rotate-45 " + diamondCls} />
-              <h1 className={"font-cyber text-xl text-white " + titleGlowCls}>Minh Ân</h1>
+              <h1 className={"font-cyber text-xl text-white " + titleGlowCls}>
+                Hoàng Hải
+              </h1>
               <span className={"h-3 w-3 rotate-45 " + diamondCls} />
             </div>
-            <p className={"mt-2 text-sm " + subCls}>mi nhìn cái gì</p>
+            <p className={"mt-2 text-sm " + subCls}>Quản lý thu chi cá nhân</p>
           </div>
           <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
             {!isLogin && (
               <div className="grid gap-1.5">
-                <label htmlFor="name" className={"text-sm font-medium " + labelCls}>Tên</label>
-                <input id="name" value={name} onChange={(e) => { setName(e.target.value); wakeAndResetIdle(); }} onFocus={wakeAndResetIdle} required className={inputCls} />
+                <label
+                  htmlFor="name"
+                  className={"text-sm font-medium " + labelCls}
+                >
+                  Tên
+                </label>
+                <input
+                  id="name"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    wakeAndResetIdle();
+                  }}
+                  onFocus={wakeAndResetIdle}
+                  required
+                  className={inputCls}
+                />
               </div>
             )}
             <div className="grid gap-1.5">
-              <label htmlFor="email" className={"text-sm font-medium " + labelCls}>Email</label>
-              <input id="email" type="email" value={email} onChange={(e) => onEmailChange(e.target.value)} onBlur={() => onFieldBlur("email")} onFocus={wakeAndResetIdle} required className={inputCls} />
+              <label
+                htmlFor="email"
+                className={"text-sm font-medium " + labelCls}
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => onEmailChange(e.target.value)}
+                onBlur={() => onFieldBlur("email")}
+                onFocus={wakeAndResetIdle}
+                required
+                className={inputCls}
+              />
             </div>
             <div className="grid gap-1.5">
-              <label htmlFor="password" className={"text-sm font-medium " + labelCls}>Mật khẩu</label>
-              <input id="password" type="password" value={password} onChange={(e) => onPasswordChange(e.target.value)} onBlur={() => onFieldBlur("password")} onFocus={wakeAndResetIdle} required className={inputCls} />
+              <label
+                htmlFor="password"
+                className={"text-sm font-medium " + labelCls}
+              >
+                Mật khẩu
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => onPasswordChange(e.target.value)}
+                onBlur={() => onFieldBlur("password")}
+                onFocus={wakeAndResetIdle}
+                required
+                className={inputCls}
+              />
             </div>
-            {error && <p className="rounded-xl bg-rose-500/15 px-3 py-2 text-sm text-rose-300">{error}</p>}
+            {error && (
+              <p className="rounded-xl bg-rose-500/15 px-3 py-2 text-sm text-rose-300">
+                {error}
+              </p>
+            )}
             <button type="submit" className={btnCls}>
               {isLogin ? "Đăng nhập" : "Đăng ký"}
             </button>
@@ -933,9 +1238,16 @@ export default function AuthCard({ initialMode }: { initialMode: "login" | "regi
               onMouseEnter={onSwitchHover}
               onMouseLeave={onSwitchLeave}
               disabled={switchLocked}
-              className={"font-semibold underline disabled:cursor-wait disabled:opacity-50 " + switchBtnCls}
+              className={
+                "font-semibold underline disabled:cursor-wait disabled:opacity-50 " +
+                switchBtnCls
+              }
             >
-              {switchLocked ? "Đợi gấu xíu..." : isLogin ? "Đăng ký" : "Đăng nhập"}
+              {switchLocked
+                ? "Đợi robot xíu..."
+                : isLogin
+                  ? "Đăng ký"
+                  : "Đăng nhập"}
             </button>
           </p>
         </div>

@@ -34,7 +34,7 @@ export async function createRecurring(
   });
 
   revalidatePath("/");
-  return { ok: true, message: "Đã thêm hóa đơn định kỳ." };
+  return { ok: true, message: "Đã thêm khoản định kỳ." };
 }
 
 export async function updateRecurring(
@@ -43,7 +43,7 @@ export async function updateRecurring(
 ): Promise<RecurringActionState> {
   const id = formData.get("id");
   if (typeof id !== "string" || !id) {
-    return { ok: false, message: "Thiếu id hóa đơn định kỳ." };
+    return { ok: false, message: "Thiếu mã khoản định kỳ." };
   }
 
   const user = await requireUser();
@@ -66,7 +66,7 @@ export async function updateRecurring(
   });
 
   revalidatePath("/");
-  return { ok: true, message: "Đã cập nhật hóa đơn định kỳ." };
+  return { ok: true, message: "Đã cập nhật khoản định kỳ." };
 }
 
 export async function deleteRecurring(id: string) {

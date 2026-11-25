@@ -18,13 +18,13 @@ export default function GenerateRecurringButton() {
           toast.success(
             created > 0
               ? `Đã tạo ${created} giao dịch định kỳ tháng này.`
-              : "Tháng này đã tạo đủ rồi, không có món mới."
+              : "Các khoản định kỳ của tháng này đã được ghi."
           );
         });
       }}
-      className="rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 font-semibold text-slate-950 shadow-md shadow-fuchsia-500/30 hover:from-cyan-300 hover:to-fuchsia-400"
+      className="robot-submit"
     >
-      {busy ? "Đang tạo..." : "🔁 Tạo giao dịch tháng này"}
+      {busy ? "Đang tạo..." : "Tạo giao dịch tháng này"}
     </Button>
   );
 }

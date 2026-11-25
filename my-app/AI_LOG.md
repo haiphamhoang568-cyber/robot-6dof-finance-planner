@@ -1,40 +1,14 @@
-# AI_LOG.md — Khai báo sử dụng AI (Finance Planner, đồ án cá nhân PHY10615)
+# Nhật ký sử dụng AI — Phạm Hoàng Hải
 
-Mức AI: **Mức 3** (theo đề bài).
+**Dự án:** Finance Planner — Quản lý thu chi Robot 6DOF  
+**Công cụ AI:** ChatGPT  
+**Ngày thực hiện:** 25/11/2026
 
-## Vai trò của sinh viên
+| Việc thực hiện                            | ChatGPT hỗ trợ                                                                                                               | Cách kiểm tra                                                                                                                                                                                              |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chạy ứng dụng và kết nối Neon             | Giải thích lỗi PowerShell và Prisma, hướng dẫn cài dependencies, kiểm tra migration và đối chiếu database với Prisma schema. | Tôi chạy các lệnh trên máy, áp dụng migration và đồng bộ schema. Sau đó tôi mở được dashboard tại `localhost:3000`.                                                                                        |
+| Cá nhân hóa màn hình đăng nhập và đăng ký | Từ component `AuthCard` có sẵn, chỉnh tên, tông xanh cyan và hình robot, dùng lại luồng xác thực hiện có.                    | Tôi chép bản sửa vào project và xác nhận giao diện mới xuất hiện trong Chrome.                                                                                                                             |
+| Đổi dashboard sang chủ đề robot 6DOF      | Chỉnh bố cục, hình tay robot, nhãn hạng mục, form và biểu đồ. Các nhãn robot sử dụng mã hạng mục cũ.                         | ChatGPT chạy kiểm tra TypeScript, 43 kiểm thử có sẵn, build production và thử ghi, sửa, xóa, lọc giao dịch cùng các form trên PostgreSQL riêng. Tôi mở bản đã chép trên máy và kiểm tra giao diện thực tế. |
+| Xử lý cảnh báo hydration                  | Đọc diff HTML và xác định thuộc tính con trỏ được tiện ích Chrome chèn vào.                                                  | Tôi tắt tiện ích đổi con trỏ và tải lại trang.                                                                                                                                                             |
 
-Tôi là người chịu trách nhiệm toàn bộ đồ án. Tôi tự quyết định kiến trúc và công nghệ (Next.js, Prisma, Better Auth, Neon), tự đưa yêu cầu cho từng phần, tự chạy lệnh, tự kiểm chứng kết quả từng bước, và tôi hiểu toàn bộ code trong repo — tôi có thể giải thích từng phần khi cô hỏi (theo nguyên tắc chấm: chỉ tính điểm phần giải thích được).
-
-## AI hỗ trợ như thế nào
-
-Tôi dùng trợ lý AI (Muse) gemini, chat plus để hỗ trợ viết code theo đúng yêu cầu tôi đưa ra. AI không tự quyết định thay tôi: mọi file AI viết đều do tôi yêu cầu, tôi đọc lại, tôi chạy thử và tôi chỉnh sửa cho đúng ý mình trước khi nộp.
-
-| Phần | AI hỗ trợ | Tôi làm |
-| --- | --- | --- |
-| fp1 — Prisma schema, migration, seed | Viết schema và script seed theo đề tôi đưa | Chạy migration/seed, kiểm tra số dư 24.825.000đ trên Neon, push tag fp1 |
-| fp2 — Zod schema, Server Actions CRUD, lọc theo URL | Viết schema, actions, filters, 8 unit test Zod | Chạy test, kiểm chứng lọc (tháng này + Thu = 4 giao dịch, tổng thu 16.500.000đ), push tag fp2 |
-| fp3 — Better Auth, DAL `requireUser()` | Viết `auth.ts`, `auth-client.ts`, `dal.ts`, trang login/register, route handler auth, sửa actions lọc theo `userId` | Cài better-auth, tạo `BETTER_AUTH_SECRET`, đăng ký tài khoản thật, chuyển dữ liệu từ demo sang tài khoản thật, push tag fp3 |
-| Giao diện (shadcn, neon cyber, gấu trúc) | Viết lại CSS/theme, component auth-card, animation gấu trúc theo ý tôi | Chạy dev server, xem và chỉnh từng chi tiết (màu, gấu, xe, cây) |
-| Wishlist CRUD | Viết Zod schema, Server Actions, form/row/delete-button theo mẫu giao dịch | Kiểm tra thêm/sửa/xóa trên giao diện |
-| Mốc tiết kiệm | Viết hàm thuần `savingsMilestone` và 8 unit test | Chạy test, kiểm tra thanh tiến độ wishlist |
-| Biểu đồ Recharts | Viết component biểu đồ thu/chi | Cài recharts, kiểm tra biểu đồ hiển thị đúng số liệu |
-| CI GitHub Actions | Viết workflow `.github/workflows/ci.yml` | Xem kết quả CI chạy trên GitHub |
-
-## phần cải tiếng thêm make by Ân :3
-10 tính năng cơ bản đc chia ra làm 7 tính năng ko trực tiếp trên database 3 cái còn lại thì có
-
-
-## mô tả sơ lược 7 tính năng
-- Điểm sức khỏe tài chính 0–100 + xếp hạng
-- Dự báo số dư cuối tháng, cảnh báo nếu sẽ âm
-- Mô phỏng "cắt X đ/tháng thì 1 năm tiết kiệm được bao nhiêu"
-- So sánh thu/chi với tháng trước (% tăng/giảm)
-- Top 5 khoản chi lớn nhất tháng
-- Streak ghi chép + huy hiệu
-- Gợi ý tiết kiệm (chỉ danh mục chi nhiều nhất, gợi ý cắt 10%)
-
-## mô tả sơ lược 3 tính năng cần database
-- Ngân sách danh mục (đặt hạn mức/tháng, cảnh báo 80%/vượt)
-- Hóa đơn định kỳ (thêm mẫu + nút 1 click tạo hết giao dịch tháng này, không bị trùng)
-- Wishlist có deadline (chọn ngày mục tiêu, hiện còn bao nhiêu ngày + cần tiết kiệm bao nhiêu/ngày)
+Trên mã nền Finance Planner, phần tôi trực tiếp thực hiện gồm xác định chủ đề Robot 6DOF, thay và kiểm tra các file đã chỉnh, cấu hình Neon, chạy lệnh trên máy và xác nhận giao diện. ChatGPT hỗ trợ viết mã giao diện, chẩn đoán lỗi, kiểm thử trên môi trường riêng và soạn tài liệu.

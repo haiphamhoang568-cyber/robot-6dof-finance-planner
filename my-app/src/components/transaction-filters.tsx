@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { Category } from "../generated/prisma/enums";
+import { ROBOT_TYPE_LABELS, robotCategoryLabel } from "../lib/robot-labels";
 import {
   Select,
   SelectContent,
@@ -35,8 +36,8 @@ export default function TransactionFilters({
   return (
     <div className="flex flex-wrap gap-2">
       <Select value={month} onValueChange={(v) => update("month", v ?? "all")}>
-        <SelectTrigger className="w-40 rounded-full border-slate-700 bg-slate-900/80 text-slate-200 shadow-sm">
-          <SelectValue />
+        <SelectTrigger aria-label="Lọc theo tháng" className="w-full min-[440px]:w-36">
+          <SelectValue>{month === "this" ? "Tháng này" : month === "last" ? "Tháng trước" : "Tất cả tháng"}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">Tất cả tháng</SelectItem>
@@ -46,24 +47,24 @@ export default function TransactionFilters({
       </Select>
 
       <Select value={type} onValueChange={(v) => update("type", v ?? "all")}>
-        <SelectTrigger className="w-32 rounded-full border-slate-700 bg-slate-900/80 text-slate-200 shadow-sm">
-          <SelectValue />
+        <SelectTrigger aria-label="Lọc theo loại" className="w-full min-[440px]:w-36">
+          <SelectValue>{type === "INCOME" || type === "EXPENSE" ? ROBOT_TYPE_LABELS[type] : "Thu và chi"}</SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Thu + Chi</SelectItem>
-          <SelectItem value="INCOME">Thu</SelectItem>
-          <SelectItem value="EXPENSE">Chi</SelectItem>
+          <SelectItem value="all">Thu và chi</SelectItem>
+          <SelectItem value="INCOME">{ROBOT_TYPE_LABELS.INCOME}</SelectItem>
+          <SelectItem value="EXPENSE">{ROBOT_TYPE_LABELS.EXPENSE}</SelectItem>
         </SelectContent>
       </Select>
 
       <Select value={category} onValueChange={(v) => update("category", v ?? "all")}>
-        <SelectTrigger className="w-48 rounded-full border-slate-700 bg-slate-900/80 text-slate-200 shadow-sm">
-          <SelectValue />
+        <SelectTrigger aria-label="Lọc theo hạng mục" className="w-full min-[440px]:w-49">
+          <SelectValue>{category === "all" ? "Tất cả hạng mục" : robotCategoryLabel(category)}</SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Tất cả danh mục</SelectItem>
+          <SelectItem value="all">Tất cả hạng mục</SelectItem>
           {Object.values(Category).map((c) => (
-            <SelectItem key={c} value={c}>{c.replaceAll("_", " ")}</SelectItem>
+            <SelectItem key={c} value={c}>{robotCategoryLabel(c)}</SelectItem>
           ))}
         </SelectContent>
       </Select>
